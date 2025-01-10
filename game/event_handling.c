@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:22:38 by aclakhda          #+#    #+#             */
-/*   Updated: 2024/12/25 14:24:52 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:49:39 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,25 @@
 
 int	update_player(t_window *window) //updating player position and redrawing the sceen
 {
-	struct timeval current_time;
-	gettimeofday(&current_time, NULL);
-	double elapsed_time = (current_time.tv_sec - window->last_time.tv_sec) + (current_time.tv_usec - window->last_time.tv_usec) / 1000000.0;
-	window->last_time = current_time;
-	// printf("FPS: %f\n", 1 / elapsed_time);
-
 	if (window->mov.up)
 	{
-		if (map[(int)((window->player.y - WALL_COLLISION) / 64)][(int)(window->player.x / 64)] != '1')
-			window->player.y -= MOV_SPEED;
+		window->player.x += cos(window->player.dir * PI / 180) * MOV_SPEED;
+		window->player.y += sin(window->player.dir * PI / 180) * MOV_SPEED;
 	}
 	if (window->mov.down)
 	{
-		if (map[(int)((window->player.y + WALL_COLLISION) / 64)][(int)(window->player.x / 64)] != '1')
-			window->player.y += MOV_SPEED;
+		window->player.x -= cos(window->player.dir * PI / 180) * MOV_SPEED;
+		window->player.y -= sin(window->player.dir * PI / 180) * MOV_SPEED;
 	}
 	if (window->mov.left)
 	{
-		if (map[(int)(window->player.y / 64)][(int)((window->player.x - WALL_COLLISION) / 64)] != '1')
-			window->player.x -= MOV_SPEED;
+		window->player.x += cos((window->player.dir - 90) * PI / 180) * MOV_SPEED;
+		window->player.y += sin((window->player.dir - 90) * PI / 180) * MOV_SPEED;
 	}
 	if (window->mov.right)
 	{
-		if (map[(int)(window->player.y / 64)][(int)((window->player.x + WALL_COLLISION) / 64)] != '1')
-			window->player.x += MOV_SPEED;
+		window->player.x += cos((window->player.dir + 90) * PI / 180) * MOV_SPEED;
+		window->player.y += sin((window->player.dir + 90) * PI / 180) * MOV_SPEED;
 	}
 	if (window->mov.r_left) //fham hadi mzyan
 	{

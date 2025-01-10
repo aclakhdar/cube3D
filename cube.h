@@ -4,9 +4,11 @@
 //window size
 #define WINDOW_HEIGHT 720
 #define WINDOW_WIDTH 1280
+#define D_PLAN 277 //distance from the player to the projection plane
 
 //colors
 #define BOCCHI 0xEEB8C4
+#define PINK 0xcd9da8
 #define grey 0x808080
 #define NE 0xFFCDB2
 #define YELLOW 0xFFFF00
@@ -16,6 +18,8 @@
 #define WHITE 0xFFFFFF
 #define BLACK 0x000000
 #define TRANS 0x00FF0000
+#define GREY_H 0xb3b3b3
+#define GREY_V 0x6d6d6d
 
 //keycodes
 #define UP 119
@@ -28,14 +32,19 @@
 
 //player movement
 #define WALL_COLLISION 10
-#define ROT_SPEED 0.6
+#define ROT_SPEED 0.2
 #define MOV_SPEED 0.4
 #define LINE_LENGTH 300
 #define FOV 60
+#define DOV 10 // depth of veiw
 #define PI 3.14159265358979323846
 
 //some values
 #define GAB_SIZE 4
+#define COL_S 64 // columes size (walls, empty space ect)
+#define VER 1 //if the line is vertical
+#define HOR 0 //if the line is horizontal
+
 
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 
@@ -46,6 +55,7 @@ extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 #include <stdio.h>
 #include <mlx.h>
 #include <sys/time.h> //for mesuring fps
+#include <limits.h>
 
 typedef struct s_move {
 	int	up;
@@ -78,6 +88,14 @@ typedef struct s_player {
 	double	old_dy;
 }		t_player;
 
+typedef struct s_ray {
+	long	x;
+	long	y;
+	int		type;
+	int		hit;
+	long	dist;
+}		t_ray;
+
 typedef struct window {
 	void		*mlx;
 	void		*win;
@@ -85,7 +103,9 @@ typedef struct window {
 	t_move		mov;
 	t_player	player;
 	t_data		wall_img;
-	float		dist[FOV];
+	t_ray		v_line[FOV];//lengh of vertical lines
+	t_ray		h_line[FOV];//lenght of hori lines
+	t_ray		f_line[FOV];//final lenghts of lines
 	struct timeval last_time;//remove this
 } t_window;
 

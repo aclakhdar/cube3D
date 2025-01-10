@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2024/12/26 17:04:49 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:51:46 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char map[WINDOW_HEIGHT][WINDOW_WIDTH] = { //tmp!!
 	"1111111111",
-	"1000010011",
-	"1000010001",
-	"1000010001",
-	"1110011101",
+	"10000000001",
+	"10000000001",
 	"1000000001",
 	"1000000001",
-	"1101000001",
-	"1001000011",
+	"1000000001",
+	"1000000001",
+	"1000000001",
+	"1000011011",
 	"1111111111"
 };
 
@@ -53,8 +53,8 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dy - dx;
 		for (int i = 0; i <= dx; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
-				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
+			// if (map[y / (64)][x / (64)] == '1')
+			// 	return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
 			{
@@ -70,8 +70,8 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dx - dy;
 		for (int i = 0; i <= dy; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
-				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
+			// if (map[y / (64)][x / (64)] == '1')
+			// 	return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
 			{
@@ -87,9 +87,9 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 
 void	init_player(t_player *player)
 {
-	player->x = 164;
-	player->y = 164;
-	player->dir = 180;
+	player->x = 274;
+	player->y = 80;
+	player->dir = 0;
 }
 
 void	game(void)

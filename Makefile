@@ -1,5 +1,5 @@
 SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c
-FLAGS = -g #-Wall -Wextra -Werror
+FLAGS = -g #-pg #-Wall -Wextra -Werror
 CC = cc
 NAME = cube
 

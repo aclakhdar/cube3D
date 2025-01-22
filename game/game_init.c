@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/10 16:51:46 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:47:52 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char map[WINDOW_HEIGHT][WINDOW_WIDTH] = { //tmp!!
 	"1111111111",
-	"10000000001",
-	"10000000001",
+	"1000000111",
 	"1000000001",
 	"1000000001",
 	"1000000001",
 	"1000000001",
 	"1000000001",
+	"1001000001",
 	"1000011011",
 	"1111111111"
 };
@@ -112,6 +112,7 @@ void	game(void)
 	window.win = win;
 	window.img = img;
 	window.mov = (t_move){0, 0, 0, 0, 0};
+	window.image = &img;
 	draw_scene(&img, &window);
 	mlx_hook(win, 2, 1L<<0, key_press, &window);//for pressing keys
 	mlx_hook(win, 3, 1L<<1, key_release, &window);//for releasing keys

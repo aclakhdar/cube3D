@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:22:38 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/10 16:49:39 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/01/14 20:53:31 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	update_player(t_window *window) //updating player position and redrawing the
 			window->player.dir = 0;
 		window->player.dir += ROT_SPEED;
 	}
-	draw_scene(&window->img, window);
+	draw_scene(window->image, window);
 	return (0);
 }
 
@@ -101,8 +101,14 @@ int	key_press(int keycode, t_window *window)
 	}
 	if (keycode == ESC)//free here
 	{
+		mlx_destroy_image(window->mlx, window->image->img);
 		mlx_destroy_image(window->mlx, window->img.img);
 		mlx_destroy_window(window->mlx, window->win);
+		if (window->mlx)
+		{
+			mlx_destroy_display(window->mlx);
+			free(window->mlx);
+		}
 		exit(0);
 	}
 	// printf("keycode: %d\n", keycode);

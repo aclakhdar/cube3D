@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/22 16:03:42 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/01/24 12:02:44 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,9 @@ void draw_3D(t_window *window, t_data *img, int i)
 void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri edge cases like 0 and 360.....
 {
 	float j = window->player.dir - FOV/2;
-	for (int i = 0; i < FOV; i++)
+	int	ray_num = FOV; // Number of rays should be equal to the field of view
+	float	degree = (float)FOV / ray_num;
+	for (int i = 0; i < ray_num; i++)
 	{
 		if (j < 0)
 			j += 360;
@@ -229,6 +231,7 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 		}
 		else
 			window->f_line[i] = window->h_line[i];
+		printf("degree = %f\n", degree);
 		printf("dist: %ld\n", window->f_line[i].dist);
 		window->f_line[i].dist = window->f_line[i].dist * cos(degree_to_radian(window->player.dir - j));// correct shufa dyal l7uta
 		printf("dist: %ld\n========\n", window->f_line[i].dist);
@@ -236,14 +239,12 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 			draw_line(img, window->player.x, window->player.y, window->f_line[i].x, window->f_line[i].y, RED);
 		else
 			draw_3D(window, img, i);
-		j++;
+		j += degree;
 	}
 	printf("----------------\n");
 	if (DEBUG)
 		draw_square(img, window->player.x, window->player.y, 3, BOCCHI);
 }
-
-
 
 void	draw_walls(t_data *img)
 {

@@ -4,7 +4,7 @@
 //window size
 #define WINDOW_HEIGHT 720
 #define WINDOW_WIDTH 1280
-#define D_PLAN 700 //distance from the player to the projection plane
+#define D_PLAN 1000 //distance from the player to the projection plane
 
 //colors
 #define BOCCHI 0xEEB8C4
@@ -37,7 +37,8 @@
 #define LINE_LENGTH 300
 #define FOV 60
 #define DOV 50 // depth of veiw
-#define PI 3.14159265358979323846
+#define RAY_NUM 120
+#define PI 3.14
 
 //some values
 #define GAB_SIZE 4
@@ -46,8 +47,12 @@
 #define HOR 0 //if the line is horizontal
 #define DEGREE 0.0174533 //degree to radian
 
+//tmp
+#define MAP_WIDTH 10
+#define MAP_HEIGHT 10
+
 //debug
-#define DEBUG 1
+#define DEBUG 0
 
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 
@@ -59,6 +64,16 @@ extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 #include <mlx.h>
 #include <sys/time.h> //for mesuring fps
 #include <limits.h>
+
+typedef struct s_camera
+{
+	double	x;
+	double	y;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+}			t_camera;
 
 typedef struct s_move {
 	int	up;
@@ -105,10 +120,11 @@ typedef struct window {
 	t_data		*image;
 	t_move		mov;
 	t_player	player;
+	t_camera	camera;
 	t_data		wall_img;
-	t_ray		v_line[1024];//lengh of vertical lines
-	t_ray		h_line[1024];//lenght of hori lines
-	t_ray		f_line[1024];//final lenghts of lines
+	t_ray		v_line[WINDOW_WIDTH];//lengh of vertical lines
+	t_ray		h_line[WINDOW_WIDTH];//lenght of hori lines
+	t_ray		f_line[WINDOW_WIDTH];//final lenghts of lines
 	struct timeval last_time;//remove this
 } t_window;
 

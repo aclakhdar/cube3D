@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/24 17:33:07 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:38:21 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	init_camera(t_camera *cam)
 	cam->planeY = cam->dirX * tan(degree_to_radian(FOV/ 2));
 }
 
-void	game(void)
+void	game(t_data *img)
 {
 	void	*mlx;
 	void	*win;
-	t_data	img;
+
 	void	*bocchi;
 	t_player	player;
 	t_window	window;

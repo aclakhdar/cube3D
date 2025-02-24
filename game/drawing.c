@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/24 12:02:44 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:35:14 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,29 @@ void	draw_background(t_data *img, t_player *player)
 		camera_height = 0;
 	if (camera_height > WINDOW_HEIGHT)
 		camera_height = WINDOW_HEIGHT;
-
 	// Draw sky (above the horizon)
+	int sky_color = img->r_c << 16 | img->g_c << 8 | img->b_c;
 	for (int i = 0; i < camera_height; i += COL_S)
 	{
 		for (int j = 0; j < WINDOW_WIDTH; j += COL_S)
 		{
-			draw_square(img, j, i, COL_S, 0xa71e34);
+			draw_square(img, j, i, COL_S, sky_color);
 		}
 	}
 
 	// Draw ground (below the horizon)
+	int ground_color = img->r_f << 16 | img->g_f << 8 | img->b_f;
 	for (int i = camera_height; i < WINDOW_HEIGHT; i += COL_S)
 	{
 		for (int j = 0; j < WINDOW_WIDTH; j += COL_S)
 		{
-			draw_square(img, j, i, COL_S, 0x2e2022);
+			draw_square(img, j, i, COL_S, ground_color);
 		}
 	}
+
 }
 
-t_ray	horizontal_line(t_window *window, int dir)
+t_ray	horizontal_line(t_window *window, int dir, t_data *img)
 {
 	double	x;
 	double	y;
@@ -98,7 +100,7 @@ t_ray	horizontal_line(t_window *window, int dir)
 	{
 		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 		{
-			if (map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
+			if (img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
 			{
 				// draw_line(&window->img, window->player.x, window->player.y, x, y, RED);
 				h_line.x = x;
@@ -122,7 +124,7 @@ t_ray	horizontal_line(t_window *window, int dir)
 	return (h_line);
 }
 
-t_ray	vertical_line(t_window *window, int dir)
+t_ray	vertical_line(t_window *window, int dir, t_data *img)
 {
 	double	x;
 	double	y;
@@ -151,7 +153,7 @@ t_ray	vertical_line(t_window *window, int dir)
 	{
 		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 		{
-			if (map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
+			if (img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
 			{
 				v_line.x = x;
 				v_line.y = y;
@@ -215,8 +217,8 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 			j += 360;
 		if (j >= 360)
 			j -= 360;
-		window->h_line[i] = horizontal_line(window, j);
-		window->v_line[i] = vertical_line(window, j);
+		window->h_line[i] = horizontal_line(window, j, img);
+		window->v_line[i] = vertical_line(window, j, img);
 		if (window->v_line[i].dist <= window->h_line[i].dist)
 		{
 			if (window->v_line[i].dist == window->h_line[i].dist)
@@ -256,11 +258,13 @@ void	draw_walls(t_data *img)
 	// 		draw_square(img, j * (64), i * (64), 64, );
 	// 	}
 	// }
-	for (int i = 0; i < 10; i++)
+	printf("rows : %d\n",img->nb_rows);
+	printf("cols : %d\n",img->nb_cols);
+	for (int i = 0; i < img->nb_rows; i++)
 	{
-		for (int j = 0; j < 10; j++)
+		for (int j = 0; j < img->nb_cols; j++)
 		{
-			if (map[i][j] == '1')
+			if (img->map[i][j] == '1')
 				draw_square(img, j * (64), i * (64), 64, BLUE);
 		}
 	}

@@ -2,8 +2,8 @@
 # define CUBE_H
 
 //window size
-#define WINDOW_HEIGHT 720
-#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 960
+#define WINDOW_WIDTH 1200
 #define D_PLAN 1000 //distance from the player to the projection plane
 
 //colors
@@ -48,12 +48,12 @@
 #define DEGREE 0.0174533 //degree to radian
 
 //tmp
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 10
+#define MAP_WIDTH 20
+#define MAP_HEIGHT 20
 
 //debug
-#define DEBUG 0
-
+#define DEBUG 1
+# define BUFFER_SIZE 1
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 
 #include <stdio.h>
@@ -64,6 +64,9 @@ extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 #include <mlx.h>
 #include <sys/time.h> //for mesuring fps
 #include <limits.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
 
 typedef struct s_camera
 {
@@ -85,13 +88,6 @@ typedef struct s_move {
 	int	r_right;
 }		t_move;
 
-typedef struct s_data {
-    void	*img;
-    char	*addr;
-    int		bits_per_pixel;
-    int		line_length;
-    int		endian;
-} t_data;
 
 typedef struct s_player {
 	double	x;
@@ -103,7 +99,59 @@ typedef struct s_player {
 	double	dirY;
 	double	planeX;
 	double	planeY;
+	float	rotation_angle;
+
 }		t_player;
+
+typedef struct s_data {
+    void	*img;
+    char	*addr;
+	char	**map;
+	int			max;
+	int			nb_rows;
+	int			nb_cols;
+	int			nb_rays;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	int			r_f;
+	int			g_f;
+	int			b_f;
+	int			r_c;
+	int			g_c;
+	int			b_c;
+	t_player	player;
+	int			tilesize;
+	void		*texture[4];
+    int		bits_per_pixel;
+    int		line_length;
+    int		endian;
+} t_data;
+
+typedef struct s_game
+{
+	int		fd;
+	char	*str;
+	char	**map;
+	char	**array;
+	char	**array2;
+	char	**map_alloc;
+	char	*no;
+	char	*we;
+	char	*ea;
+	char	*so;
+	char	*f;
+	char	*c;
+	int		r_f;
+	int		g_f;
+	int		b_f;
+	int		r_c;
+	int		g_c;
+	int		b_c;
+
+}	t_game;
+
 
 typedef struct s_ray {
 	long	x;
@@ -129,7 +177,7 @@ typedef struct window {
 } t_window;
 
 char	*ft_itoa(int n);
-void	game(void);
+void	game(t_data	*img);
 int		key_press(int keycode, t_window *window);
 int		key_release(int keycode, t_window *window);
 int		update_player(t_window *window);
@@ -140,4 +188,34 @@ void 	draw_square(t_data *img, int x_start, int y_start, int size, int color);
 void	draw_walls(t_data *img);
 float	degree_to_radian(float degree);
 
+
+
+//utils 
+void	parsing(int ac, char **av, t_data *data);
+void	check_newline(t_game *game);
+char	*ft_substr(char *s, size_t start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_check(char *s);
+size_t	ft_strlen(char *s);
+char	*ft_strdup(char *s1);
+char	**ft_split(const char *s, char c);
+
+char	*get_next_line(int fd);
+char	*ft_strchr(const char *s, int c);
+
+void	check_no(char *line, t_game *game, int fd, char **str_split);
+void	check_we(char *line, t_game *game, int fd, char **str_split);
+void	check_ea(char *line, t_game *game, int fd, char **str_split);
+void	check_so(char *line, t_game *game, int fd, char **str_split);
+void	check_f(t_game *game, char **str_split);
+void	check_c(t_game *game, char **str_split);
+void	err_msg2(char *str);
+void	err_msg(void);
+
+
+void	check_map_valid(char **map);
+void	check_player_valid(char **map);
+void	check_vide(char **map, t_game *game);
+void	check_game(char **map);
+void	check_vide_norm(char **map, t_game *game, int count);
 #endif

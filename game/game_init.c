@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/15 16:47:52 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:35:29 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ char map[WINDOW_HEIGHT][WINDOW_WIDTH] = { //tmp!!
 	"1000000001",
 	"1000000001",
 	"1000000001",
+	"1000000001",
+	"1000000001",
+	"1001000001",
+	"1000011011",
+	"1011111111",
 	"1000000001",
 	"1000000001",
 	"1001000001",
@@ -53,8 +58,8 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dy - dx;
 		for (int i = 0; i <= dx; i++)
 		{
-			// if (map[y / (64)][x / (64)] == '1')
-			// 	return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
+			if (map[y / (64)][x / (64)] == '1')
+				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
 			{
@@ -70,8 +75,8 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dx - dy;
 		for (int i = 0; i <= dy; i++)
 		{
-			// if (map[y / (64)][x / (64)] == '1')
-			// 	return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
+			if (map[y / (64)][x / (64)] == '1')
+				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
 			{
@@ -85,35 +90,32 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 	return sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));//distance between two points googliha ila nsiti
 }
 
-void	init_player(t_player *player)
+void	init_player(t_player *player, t_data *img)
 {
-	player->x = 274;
-	player->y = 80;
+	player->x = img->player.x;
+	player->y = img->player.y;
 	player->dir = 0;
 }
-
-void	game(void)
+void	game(t_data *img)
 {
 	void	*mlx;
 	void	*win;
-	t_data	img;
-	void	*bocchi;
 	t_player	player;
 	t_window	window;
 
-	init_player(&player);
+	init_player(&player, img);
 	mlx = mlx_init(); //check if it need clear
 	win = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "ULTRAKILL"); //clear window
-	img.img = mlx_new_image(mlx, 1920, 1080); // clear img
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian); //clear img
+	img->img = mlx_new_image(mlx, 1920, 1080); // clear img
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); //clear img
 	gettimeofday(&window.last_time, NULL);//remove this
 	window.mlx = mlx;
 	window.player = player;
 	window.win = win;
-	window.img = img;
+	window.img = *img;
 	window.mov = (t_move){0, 0, 0, 0, 0};
-	window.image = &img;
-	draw_scene(&img, &window);
+	window.image = img;
+	draw_scene(img, &window);
 	mlx_hook(win, 2, 1L<<0, key_press, &window);//for pressing keys
 	mlx_hook(win, 3, 1L<<1, key_release, &window);//for releasing keys
 	mlx_loop_hook(mlx, update_player, &window);//for redrawing player if he moved eash frame

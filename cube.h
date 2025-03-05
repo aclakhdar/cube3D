@@ -40,6 +40,12 @@
 #define RAY_NUM 120
 #define PI 3.14
 
+
+# define TEX_NORTH 0
+# define TEX_SOUTH 1
+# define TEX_EAST 2
+# define TEX_WEST 3
+
 //some values
 #define GAB_SIZE 4
 #define COL_S 64 // columes size (walls, empty space ect)

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/02/24 15:35:14 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/01 14:34:18 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ void draw_3D(t_window *window, t_data *img, int i)
 
 void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri edge cases like 0 and 360.....
 {
-	float j = window->player.dir - FOV/2;
+	float j = window->player.dir - FOV/2; // ray angle
 	int	ray_num = FOV; // Number of rays should be equal to the field of view
 	float	degree = (float)FOV / ray_num;
 	for (int i = 0; i < ray_num; i++)
@@ -233,10 +233,10 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 		}
 		else
 			window->f_line[i] = window->h_line[i];
-		printf("degree = %f\n", degree);
-		printf("dist: %ld\n", window->f_line[i].dist);
+		// printf("degree = %f\n", degree);
+		// printf("dist: %ld\n", window->f_line[i].dist);
 		window->f_line[i].dist = window->f_line[i].dist * cos(degree_to_radian(window->player.dir - j));// correct shufa dyal l7uta
-		printf("dist: %ld\n========\n", window->f_line[i].dist);
+		// printf("dist: %ld\n========\n", window->f_line[i].dist);
 		if (DEBUG)
 			draw_line(img, window->player.x, window->player.y, window->f_line[i].x, window->f_line[i].y, RED);
 		else

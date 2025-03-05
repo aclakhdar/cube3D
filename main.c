@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/02/24 15:26:40 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 02:38:04 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	find_player_position(t_data *data)
 				|| data->map[y][x] == 'E' || data->map[y][x] == 'S')
 			{
 				set_dir_angle(data, x, y);
-				data->player.x = x * data->tilesize + data->tilesize / 2;
-				data->player.y = y * data->tilesize + data->tilesize / 2;
+				data->player.x = x * 64 + 64 / 2;
+				data->player.y = y * 64 + 64 / 2;
 				data->map[y][x] = '0';
 			}
 		}
@@ -48,6 +48,31 @@ void	initialize_player(t_data *data)
 {
 	find_player_position(data);
 
+}
+void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
+{
+	void	*texture;
+
+	texture = mlx_xpm_file_to_image(mlx_ptr, file_name, width, height);
+	if (!texture)
+	{
+		printf("Failed to load texture image: %s\n", file_name);
+		exit(EXIT_FAILURE);
+	}
+	return (texture);
+}
+void	load_textures(t_data *img)
+{
+	img->texture[TEX_EAST] = load_texture(img->mlx_ptr, img->ea,
+			&(img->texture_width), &(img->texture_height));
+	img->texture[TEX_NORTH] = load_texture(img->mlx_ptr, img->no,
+			&(img->texture_width), &(img->texture_height));
+	img->texture[TEX_SOUTH] = load_texture(img->mlx_ptr, img->we,
+			&(img->texture_width), &(img->texture_height));
+	img->texture[TEX_WEST] = load_texture(img->mlx_ptr, img->so,
+			&(img->texture_width), &(img->texture_height));
+	img->gun_texture = load_texture(img->mlx_ptr, "coolgun.xpm",
+			&(img->gun_texture_width), &(img->gun_texture_height));
 }
 int main(int ac, char **av)
 {
@@ -61,6 +86,7 @@ int main(int ac, char **av)
 	initialize_player(&img);
 	printf("pos : %f",img.player.x);
 	printf("pos2 : %f",img.player.y);
+	load_textures(&img);
 	game(&img);
 	return (0);
 }

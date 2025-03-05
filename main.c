@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 02:38:04 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 19:29:47 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	load_textures(t_data *img)
 			&(img->texture_width), &(img->texture_height));
 	img->texture[TEX_WEST] = load_texture(img->mlx_ptr, img->so,
 			&(img->texture_width), &(img->texture_height));
-	img->gun_texture = load_texture(img->mlx_ptr, "coolgun.xpm",
-			&(img->gun_texture_width), &(img->gun_texture_height));
+	// img->gun_texture = load_texture(img->mlx_ptr, "coolgun.xpm",
+	// 		&(img->gun_texture_width), &(img->gun_texture_height));
 }
 int main(int ac, char **av)
 {

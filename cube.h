@@ -112,6 +112,9 @@ typedef struct s_player {
 typedef struct s_data {
     void	*img;
     char	*addr;
+	void		*mlx_ptr;
+	int			texture_width;
+	int			texture_height;
 	char	**map;
 	int			max;
 	int			nb_rows;

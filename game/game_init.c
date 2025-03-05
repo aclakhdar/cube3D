@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/02/28 18:26:35 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 19:29:34 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	game(t_data *img)
 	img->img = mlx_new_image(mlx, 1920, 1080); // clear img
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); //clear img
 	gettimeofday(&window.last_time, NULL);//remove this
+	img->mlx_ptr = mlx;
 	window.mlx = mlx;
 	window.player = player;
 	window.win = win;

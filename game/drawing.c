@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/01 14:34:18 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 21:14:04 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_ray	horizontal_line(t_window *window, int dir, t_data *img)
 	{
 		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 		{
-			if (img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
+			if ((int)(y / COL_S) >= 0 && (int)(y / COL_S) < img->nb_rows && (int)(x / COL_S) >= 0 && (int)(x / COL_S) < img->nb_cols && img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
 			{
 				// draw_line(&window->img, window->player.x, window->player.y, x, y, RED);
 				h_line.x = x;
@@ -153,7 +153,7 @@ t_ray	vertical_line(t_window *window, int dir, t_data *img)
 	{
 		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 		{
-			if (img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
+			if ((int)(y / COL_S) >= 0 && (int)(y / COL_S) < img->nb_rows && (int)(x / COL_S) >= 0 && (int)(x / COL_S) < img->nb_cols && img->map[(int)(y / COL_S)][(int)(x / COL_S)] == '1')
 			{
 				v_line.x = x;
 				v_line.y = y;
@@ -184,22 +184,48 @@ void draw_3D(t_window *window, t_data *img, int i)
 	int wall_width = screen_width / FOV + 1;
 	int cons = COL_S * D_PLAN;
 	int wall_height, wall_top, wall_bottom;
+	t_tex *tex;
+	double wall_x; // X-coordinate on the wall (0 to 1) maaaatnsahaaax raha ezzzzzzzzzzzz
 
-	if (window->f_line[i].dist == 0) // Avoid division by zero
-		return ;
+	if (window->f_line[i].dist < 0.0001)
+		window->f_line[i].dist = 0.0001;
 	wall_height = cons / window->f_line[i].dist;
 	wall_top = (screen_height / 2) - (wall_height / 2);
 	wall_bottom = (screen_height / 2) + (wall_height / 2);
+	if (window->f_line[i].type == HOR)
+	{
+		wall_x = window->f_line[i].x / COL_S - floor(window->f_line[i].x / COL_S);
+		if (window->f_line[i].y > window->player.y) // South
+			tex = &img->south;
+		else // North
+			tex = &img->north;
+	}
+	else
+	{ // VER
+		wall_x = window->f_line[i].y / COL_S - floor(window->f_line[i].y / COL_S);
+		if (window->f_line[i].x > window->player.x) // East
+			tex = &img->east;
+		else // West
+			tex = &img->west;
+	}
+
+	int tex_x = (int)(wall_x * tex->width); //x cordination dyal tex li ratrsm
+	if (tex_x >= tex->width)
+		tex_x = tex->width - 1;
+
 	for (int y = wall_top; y < wall_bottom; y++)
 	{
-		for (int x = i * wall_width; x < (i + 1) * wall_width; x++)
+		if (y >= 0 && y < screen_height)
 		{
-			if (y >= 0 && y < screen_height && x >= 0 && x < screen_width && window->f_line[i].hit)
+			double tex_y = (double)(y - wall_top) / wall_height * tex->height;// cal texture y coordinate
+			if (tex_y >= tex->height)
+				tex_y = tex->height - 1;
+			char *dst = tex->addr + ((int)tex_y * tex->line_length + tex_x * (tex->bits_per_pixel / 8));// Get color from texture
+			unsigned int color = *(unsigned int *)dst;
+			for (int x = i * wall_width; x < (i + 1) * wall_width && x < screen_width; x++)
 			{
-				if (window->f_line[i].type == HOR)
-					my_mlx_pixel_put(img, x, y, BOCCHI);
-				else
-					my_mlx_pixel_put(img, x, y, PINK);
+				if (window->f_line[i].hit)
+					my_mlx_pixel_put(img, x, y, color);
 			}
 		}
 	}

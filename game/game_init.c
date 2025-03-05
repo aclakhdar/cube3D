@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 19:29:34 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:52:42 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	init_player(t_player *player, t_data *img)
 {
 	player->x = img->player.x;
 	player->y = img->player.y;
-	player->dir = 0;
+	player->dir = img->dir;
 }
 void	game(t_data *img)
 {
@@ -108,14 +108,15 @@ void	game(t_data *img)
 	win = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "ULTRAKILL"); //clear window
 	img->img = mlx_new_image(mlx, 1920, 1080); // clear img
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); //clear img
-	gettimeofday(&window.last_time, NULL);//remove this
 	img->mlx_ptr = mlx;
 	window.mlx = mlx;
+	load_textures(img);
 	window.player = player;
 	window.win = win;
 	window.img = *img;
 	window.mov = (t_move){0, 0, 0, 0, 0};
 	window.image = img;
+	printf(" dir = %f\n", player.dir);
 	draw_scene(img, &window);
 	mlx_hook(win, 2, 1L<<0, key_press, &window);//for pressing keys
 	mlx_hook(win, 3, 1L<<1, key_release, &window);//for releasing keys

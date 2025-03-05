@@ -58,7 +58,7 @@
 #define MAP_HEIGHT 20
 
 //debug
-#define DEBUG 1
+#define DEBUG 0
 # define BUFFER_SIZE 1
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 
@@ -73,6 +73,17 @@ extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 # include <unistd.h>
 # include <fcntl.h>
 # include <string.h>
+
+typedef struct s_tex //texture
+{
+	void	*img;
+	void	*addr;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}			t_tex;
 
 typedef struct s_camera
 {
@@ -120,22 +131,27 @@ typedef struct s_data {
 	int			nb_rows;
 	int			nb_cols;
 	int			nb_rays;
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
 	int			r_f;
 	int			g_f;
 	int			b_f;
 	int			r_c;
 	int			g_c;
 	int			b_c;
+	char		*no;
+	char		*so;
+	char		*ea;
+	char		*we;
 	t_player	player;
 	int			tilesize;
 	void		*texture[4];
     int		bits_per_pixel;
     int		line_length;
     int		endian;
+	int		dir;
+	t_tex 	north;
+	t_tex	south;
+	t_tex	east;
+	t_tex	west;
 } t_data;
 
 typedef struct s_game
@@ -167,7 +183,7 @@ typedef struct s_ray {
 	long	y;
 	int		type;
 	int		hit;
-	long	dist;
+	double	dist;
 }		t_ray;
 
 typedef struct window {
@@ -199,7 +215,7 @@ float	degree_to_radian(float degree);
 
 
 
-//utils 
+//utils
 void	parsing(int ac, char **av, t_data *data);
 void	check_newline(t_game *game);
 char	*ft_substr(char *s, size_t start, size_t len);
@@ -227,4 +243,5 @@ void	check_player_valid(char **map);
 void	check_vide(char **map, t_game *game);
 void	check_game(char **map);
 void	check_vide_norm(char **map, t_game *game, int count);
+void	load_textures(t_data *img);
 #endif

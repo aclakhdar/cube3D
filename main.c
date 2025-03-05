@@ -3,25 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 19:29:47 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:55:29 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
 void	set_dir_angle(t_data *data, int x, int y)
 {
 	if (data->map[y][x] == 'N')
-		data->player.rotation_angle = 90;
+		data->dir = 270;
 	if (data->map[y][x] == 'S')
-		data->player.rotation_angle = 270;
+		data->dir = 90;
 	if (data->map[y][x] == 'W')
-		data->player.rotation_angle = 0;
+		data->dir = 180;
 	if (data->map[y][x] == 'E')
-		data->player.rotation_angle = 180;
+		data->dir = 0;
 }
+
 void	find_player_position(t_data *data)
 {
 	int	y;
@@ -63,17 +65,27 @@ void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
 }
 void	load_textures(t_data *img)
 {
-	img->texture[TEX_EAST] = load_texture(img->mlx_ptr, img->ea,
-			&(img->texture_width), &(img->texture_height));
-	img->texture[TEX_NORTH] = load_texture(img->mlx_ptr, img->no,
-			&(img->texture_width), &(img->texture_height));
-	img->texture[TEX_SOUTH] = load_texture(img->mlx_ptr, img->we,
-			&(img->texture_width), &(img->texture_height));
-	img->texture[TEX_WEST] = load_texture(img->mlx_ptr, img->so,
-			&(img->texture_width), &(img->texture_height));
+	img->east.img = load_texture(img->mlx_ptr, img->ea,
+			&(img->east.width), &(img->east.height));
+	img->north.img = load_texture(img->mlx_ptr, img->no,
+			&(img->north.width), &(img->north.height));
+	img->south.img = load_texture(img->mlx_ptr, img->we,
+			&(img->south.width), &(img->south.height));
+	img->west.img = load_texture(img->mlx_ptr, img->so,
+			&(img->west.width), &(img->west.height));
 	// img->gun_texture = load_texture(img->mlx_ptr, "coolgun.xpm",
 	// 		&(img->gun_texture_width), &(img->gun_texture_height));
+	img->north.addr = mlx_get_data_addr(img->north.img, &img->north.bits_per_pixel,
+										&img->north.line_length, &img->north.endian);
+	img->south.addr = mlx_get_data_addr(img->south.img, &img->south.bits_per_pixel,
+										&img->south.line_length, &img->south.endian);
+	img->east.addr = mlx_get_data_addr(img->east.img, &img->east.bits_per_pixel,
+										&img->east.line_length, &img->east.endian);
+	img->west.addr = mlx_get_data_addr(img->west.img, &img->west.bits_per_pixel,
+										&img->west.line_length, &img->west.endian);
+
 }
+
 int main(int ac, char **av)
 {
 	t_data	img;
@@ -84,9 +96,7 @@ int main(int ac, char **av)
 	if (img.nb_cols > 70 || img.nb_rows > 48)
 		img.tilesize = 4;
 	initialize_player(&img);
-	printf("pos : %f",img.player.x);
-	printf("pos2 : %f",img.player.y);
-	load_textures(&img);
 	game(&img);
+
 	return (0);
 }

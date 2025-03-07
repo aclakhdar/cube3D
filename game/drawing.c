@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 21:14:04 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/07 21:29:15 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,22 +192,13 @@ void draw_3D(t_window *window, t_data *img, int i)
 	wall_height = cons / window->f_line[i].dist;
 	wall_top = (screen_height / 2) - (wall_height / 2);
 	wall_bottom = (screen_height / 2) + (wall_height / 2);
-	if (window->f_line[i].type == HOR)
-	{
-		wall_x = window->f_line[i].x / COL_S - floor(window->f_line[i].x / COL_S);
-		if (window->f_line[i].y > window->player.y) // South
-			tex = &img->south;
-		else // North
-			tex = &img->north;
-	}
-	else
-	{ // VER
-		wall_x = window->f_line[i].y / COL_S - floor(window->f_line[i].y / COL_S);
-		if (window->f_line[i].x > window->player.x) // East
-			tex = &img->east;
-		else // West
-			tex = &img->west;
-	}
+	if (window->f_line[i].type == HOR) {
+        wall_x = fmod(window->f_line[i].x, COL_S) / COL_S; // Use fmod for horizontal
+        tex = (window->f_line[i].y > window->player.y) ? &img->south : &img->north;
+    } else {
+        wall_x = fmod(window->f_line[i].y, COL_S) / COL_S; // Use fmod for vertical
+        tex = (window->f_line[i].x > window->player.x) ? &img->east : &img->west;
+    }
 
 	int tex_x = (int)(wall_x * tex->width); //x cordination dyal tex li ratrsm
 	if (tex_x >= tex->width)
@@ -235,9 +226,9 @@ void draw_3D(t_window *window, t_data *img, int i)
 void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri edge cases like 0 and 360.....
 {
 	float j = window->player.dir - FOV/2; // ray angle
-	int	ray_num = FOV; // Number of rays should be equal to the field of view
-	float	degree = (float)FOV / ray_num;
-	for (int i = 0; i < ray_num; i++)
+	float	degree = (float)FOV / WINDOW_WIDTH;
+	printf("degree = %f\n", degree);
+	for (int i = 0; i < WINDOW_WIDTH; i++)
 	{
 		if (j < 0)
 			j += 360;
@@ -259,10 +250,7 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 		}
 		else
 			window->f_line[i] = window->h_line[i];
-		// printf("degree = %f\n", degree);
-		// printf("dist: %ld\n", window->f_line[i].dist);
 		window->f_line[i].dist = window->f_line[i].dist * cos(degree_to_radian(window->player.dir - j));// correct shufa dyal l7uta
-		// printf("dist: %ld\n========\n", window->f_line[i].dist);
 		if (DEBUG)
 			draw_line(img, window->player.x, window->player.y, window->f_line[i].x, window->f_line[i].y, RED);
 		else

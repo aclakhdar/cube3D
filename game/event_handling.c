@@ -1,53 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   event_handling.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 21:22:38 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/14 20:53:31 by aclakhda         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../cube.h"
-
-int	update_player(t_window *window) //updating player position and redrawing the sceen
+int update_player(t_window *window)
 {
-	if (window->mov.up)
-	{
-		window->player.x += cos(window->player.dir * PI / 180) * MOV_SPEED;
-		window->player.y += sin(window->player.dir * PI / 180) * MOV_SPEED;
-	}
-	if (window->mov.down)
-	{
-		window->player.x -= cos(window->player.dir * PI / 180) * MOV_SPEED;
-		window->player.y -= sin(window->player.dir * PI / 180) * MOV_SPEED;
-	}
-	if (window->mov.left)
-	{
-		window->player.x += cos((window->player.dir - 90) * PI / 180) * MOV_SPEED;
-		window->player.y += sin((window->player.dir - 90) * PI / 180) * MOV_SPEED;
-	}
-	if (window->mov.right)
-	{
-		window->player.x += cos((window->player.dir + 90) * PI / 180) * MOV_SPEED;
-		window->player.y += sin((window->player.dir + 90) * PI / 180) * MOV_SPEED;
-	}
-	if (window->mov.r_left) //fham hadi mzyan
-	{
-		window->player.dir -= ROT_SPEED;
-		if (window->player.dir < 0)
-			window->player.dir += 360;
-	}
-	if (window->mov.r_right)
-	{
-		if (window->player.dir >= 360)
-			window->player.dir = 0;
-		window->player.dir += ROT_SPEED;
-	}
-	draw_scene(window->image, window);
-	return (0);
+    if (window->mov.up) {
+        window->player.x += cos(window->player.dir * PI / 180) * MOV_SPEED;
+        window->player.y += sin(window->player.dir * PI / 180) * MOV_SPEED;
+    }
+    if (window->mov.down) {
+        window->player.x -= cos(window->player.dir * PI / 180) * MOV_SPEED;
+        window->player.y -= sin(window->player.dir * PI / 180) * MOV_SPEED;
+    }
+    if (window->mov.left) {
+        window->player.x += cos((window->player.dir - 90) * PI / 180) * MOV_SPEED;
+        window->player.y += sin((window->player.dir - 90) * PI / 180) * MOV_SPEED;
+    }
+    if (window->mov.right) {
+        window->player.x += cos((window->player.dir + 90) * PI / 180) * MOV_SPEED;
+        window->player.y += sin((window->player.dir + 90) * PI / 180) * MOV_SPEED;
+    }
+    if (window->mov.r_left) {
+        window->player.dir -= ROT_SPEED;
+        if (window->player.dir < 0) window->player.dir += 360;
+    }
+    if (window->mov.r_right) {
+        if (window->player.dir >= 360) window->player.dir = 0;
+        window->player.dir += ROT_SPEED;
+    }
+    draw_scene(window->image, window);
+    return (0);
 }
 
 int	key_release(int keycode, t_window *window)

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/02/22 19:38:21 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/06 21:18:53 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dy - dx;
 		for (int i = 0; i <= dx; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
+			if (map[y / (16)][x / (16)] == '1')
 				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
@@ -70,7 +70,7 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dx - dy;
 		for (int i = 0; i <= dy; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
+			if (map[y / (16)][x / (16)] == '1')
 				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)

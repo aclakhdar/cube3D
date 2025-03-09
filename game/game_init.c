@@ -1,34 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 20:52:42 by aclakhda         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../cube.h"
 
-char map[WINDOW_HEIGHT][WINDOW_WIDTH] = { //tmp!!
-	"1111111111",
-	"1000000111",
-	"1000000001",
-	"1000000001",
-	"1000000001",
-	"1000000001",
-	"1000000001",
-	"1001000001",
-	"1000011011",
-	"1011111111",
-	"1000000001",
-	"1000000001",
-	"1001000001",
-	"1000011011",
-	"1111111111"
-};
+
 
 float	degree_to_radian(float degree)
 {
@@ -58,7 +32,7 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dy - dx;
 		for (int i = 0; i <= dx; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
+			if (img->map[y / (64)][x / (64)] == '1')
 				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)
@@ -75,7 +49,7 @@ float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color) //tfrj l
 		p = 2 * dx - dy;
 		for (int i = 0; i <= dy; i++)
 		{
-			if (map[y / (64)][x / (64)] == '1')
+			if (img->map[y / (64)][x / (64)] == '1')
 				return sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0));
 			my_mlx_pixel_put(img, x, y, color);
 			if (p >= 0)

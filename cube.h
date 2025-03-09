@@ -2,10 +2,20 @@
 # define CUBE_H
 
 //window size
-#define WINDOW_HEIGHT 960
-#define WINDOW_WIDTH 1200
-#define D_PLAN 1000 //distance from the player to the projection plane
 
+
+
+#define PI 3.1415926535
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 960
+#define FOV 60
+#define COL_S 64
+#define D_PLAN ((int)(WINDOW_WIDTH / (2.0 * tan(FOV * PI / 360.0))))
+#define MOV_SPEED 0.5
+#define ROT_SPEED 0.3
+#define DOV 50
+#define HOR 0
+#define VER 1
 //colors
 #define BOCCHI 0xEEB8C4
 #define PINK 0xcd9da8
@@ -32,13 +42,8 @@
 
 //player movement
 #define WALL_COLLISION 10
-#define ROT_SPEED 0.3
-#define MOV_SPEED 0.4
-#define LINE_LENGTH 300
-#define FOV 60
-#define DOV 50 // depth of veiw
 #define RAY_NUM 120
-#define PI 3.14
+
 
 
 # define TEX_NORTH 0
@@ -48,7 +53,6 @@
 
 //some values
 #define GAB_SIZE 4
-#define COL_S 64 // columes size (walls, empty space ect)
 #define VER 1 //if the line is vertical
 #define HOR 0 //if the line is horizontal
 #define DEGREE 0.0174533 //degree to radian
@@ -58,7 +62,7 @@
 #define MAP_HEIGHT 20
 
 //debug
-#define DEBUG 0
+#define DEBUG 1
 # define BUFFER_SIZE 1
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 
@@ -74,6 +78,14 @@ extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 # include <fcntl.h>
 # include <string.h>
 
+
+typedef struct s_line {
+    float x;
+    float y;
+    float dist;
+    int type; // HOR or VER
+    int hit;
+} t_line;
 typedef struct s_tex //texture
 {
 	void	*img;

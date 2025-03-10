@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/07 21:29:15 by aclakhda         ###   ########.fr       */
+/*   Created: 2025/03/10 19:41:57 by aclakhda          #+#    #+#             */
+/*   Updated: 2025/03/10 19:42:00 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+
+#include "cube.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)// best way to put pixel in a display (using image)
 {
@@ -68,7 +69,7 @@ void	draw_background(t_data *img, t_player *player)
 
 }
 
-t_ray	horizontal_line(t_window *window, int dir, t_data *img)
+t_ray	horizontal_line(t_window *window, float dir, t_data *img)
 {
 	double	x;
 	double	y;
@@ -124,7 +125,7 @@ t_ray	horizontal_line(t_window *window, int dir, t_data *img)
 	return (h_line);
 }
 
-t_ray	vertical_line(t_window *window, int dir, t_data *img)
+t_ray	vertical_line(t_window *window, float dir, t_data *img)
 {
 	double	x;
 	double	y;
@@ -176,17 +177,32 @@ t_ray	vertical_line(t_window *window, int dir, t_data *img)
 	// v_line.dist = v_line.dist * cos(degree_to_radian(window->player.dir - dir));
 	return (v_line);
 }
+int get_pixel(t_tex *tex, int x, int y)
+{
+    // Ensure coordinates are within bounds
+    if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+        return 0; // Return black if out of bounds
 
+    // Calculate the byte offset
+    char *data = tex->addr;
+    int offset = (y * tex->line_length) + (x * (tex->bits_per_pixel / 8));
+    unsigned int color = *(unsigned int *)(data + offset);
+
+    // Optional: Transparency check
+    if (color == 0xFF00FF) // Assuming 0xFF00FF is your transparency color
+        return -1;
+
+    return (int)color;
+}
 void draw_3D(t_window *window, t_data *img, int i)
 {
-	int screen_height = WINDOW_HEIGHT;
-	int screen_width = WINDOW_WIDTH;
-	int wall_width = screen_width / FOV + 1;
-	int cons = COL_S * D_PLAN;
-	int wall_height, wall_top, wall_bottom;
-	t_tex *tex;
-	double wall_x; // X-coordinate on the wall (0 to 1) maaaatnsahaaax raha ezzzzzzzzzzzz
+    int screen_height = WINDOW_HEIGHT;
+    double dist = window->f_line[i].dist < 0.0001 ? 0.0001 : window->f_line[i].dist; // Avoid division by zero
+    int wall_height = (int)((COL_S * D_PLAN) / dist); // Cast to int for pixel alignment
+    int wall_top = (screen_height / 2) - (wall_height / 2);
+    int wall_bottom = (screen_height / 2) + (wall_height / 2);
 
+<<<<<<< HEAD
 	if (window->f_line[i].dist < 0.0001)
 		window->f_line[i].dist = 0.0001;
 	wall_height = cons / window->f_line[i].dist;
@@ -199,32 +215,53 @@ void draw_3D(t_window *window, t_data *img, int i)
         wall_x = fmod(window->f_line[i].y, COL_S) / COL_S; // Use fmod for vertical
         tex = (window->f_line[i].x > window->player.x) ? &img->east : &img->west;
     }
+=======
+    t_tex *tex;
+    double wall_x;
+>>>>>>> perfect
 
-	int tex_x = (int)(wall_x * tex->width); //x cordination dyal tex li ratrsm
-	if (tex_x >= tex->width)
-		tex_x = tex->width - 1;
+    // Texture selection and wall_x calculation
+    if (window->f_line[i].type == HOR)
+    {
+        wall_x = fmod(window->f_line[i].x, COL_S) / COL_S; // Horizontal hit x offset
+        tex = (window->f_line[i].y > window->player.y) ? &img->south : &img->north;
+    }
+    else
+    {
+        wall_x = fmod(window->f_line[i].y, COL_S) / COL_S; // Vertical hit y offset
+        tex = (window->f_line[i].x > window->player.x) ? &img->east : &img->west;
+    }
 
-	for (int y = wall_top; y < wall_bottom; y++)
-	{
-		if (y >= 0 && y < screen_height)
-		{
-			double tex_y = (double)(y - wall_top) / wall_height * tex->height;// cal texture y coordinate
-			if (tex_y >= tex->height)
-				tex_y = tex->height - 1;
-			char *dst = tex->addr + ((int)tex_y * tex->line_length + tex_x * (tex->bits_per_pixel / 8));// Get color from texture
-			unsigned int color = *(unsigned int *)dst;
-			for (int x = i * wall_width; x < (i + 1) * wall_width && x < screen_width; x++)
-			{
-				if (window->f_line[i].hit)
-					my_mlx_pixel_put(img, x, y, color);
-			}
-		}
-	}
+    // Clamp wall_x to avoid out-of-bounds
+    if (wall_x < 0) wall_x = 0;
+    if (wall_x >= 1) wall_x = 0.999;
+
+    // Map wall_x to texture width
+    int tex_x = (int)(wall_x * (tex->width - 1));
+    if (tex_x < 0) tex_x = 0;
+    if (tex_x >= tex->width) tex_x = tex->width - 1;
+
+    // Draw vertical strip
+    for (int y = wall_top; y < wall_bottom; y++)
+    {
+        if (y >= 0 && y < screen_height && window->f_line[i].hit)
+        {
+            double tex_y = ((double)(y - wall_top) / wall_height) * (tex->height - 1);
+            if (tex_y < 0) tex_y = 0;
+            if (tex_y >= tex->height) tex_y = tex->height - 1;
+
+            // Get pixel color from texture
+            int color = get_pixel(tex, tex_x, (int)tex_y);
+            if (color != -1) // Skip transparent pixels
+                my_mlx_pixel_put(img, i, y, color);
+        }
+    }
 }
 
 
-void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri edge cases like 0 and 360.....
+void dda_init(t_window *window, t_data *img)
 {
+<<<<<<< HEAD
 	float j = window->player.dir - FOV/2; // ray angle
 	float	degree = (float)FOV / WINDOW_WIDTH;
 	printf("degree = %f\n", degree);
@@ -260,6 +297,44 @@ void	dda_init(t_window *window, t_data *img)//TODO : algho 3ndk s7i7a handli ri 
 	printf("----------------\n");
 	if (DEBUG)
 		draw_square(img, window->player.x, window->player.y, 3, BOCCHI);
+=======
+    float j = window->player.dir - (FOV / 2.0); // Starting ray angle
+    int ray_num = WINDOW_WIDTH; // One ray per screen column
+    float degree = (float)FOV / (ray_num - 1); // Fine angle step
+
+    for (int i = 0; i < ray_num; i++)
+    {
+        float ray_angle = j;
+        if (ray_angle < 0) ray_angle += 360;
+        if (ray_angle >= 360) ray_angle -= 360;
+
+        window->h_line[i] = horizontal_line(window, ray_angle, img);
+        window->v_line[i] = vertical_line(window, ray_angle, img);
+
+        // Choose the closer intersection
+        if (window->v_line[i].dist <= window->h_line[i].dist)
+        {
+            window->f_line[i] = window->v_line[i];
+        }
+        else
+        {
+            window->f_line[i] = window->h_line[i];
+        }
+
+        // Correct fish-eye effect
+        window->f_line[i].dist = window->f_line[i].dist * cos(degree_to_radian(window->player.dir - ray_angle));
+
+        // Render
+        if (DEBUG)
+            draw_line(img, window->player.x, window->player.y, window->f_line[i].x, window->f_line[i].y, RED);
+        else
+            draw_3D(window, img, i);
+
+        j += degree; // Increment ray angle
+    }
+    if (DEBUG)
+        draw_square(img, window->player.x, window->player.y, 3, BOCCHI);
+>>>>>>> perfect
 }
 
 void	draw_walls(t_data *img)

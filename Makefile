@@ -5,14 +5,20 @@ SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c 
 	utils/get_next_line_utils.c \
     utils/get_next_line.c \
     utils/ft_split.c
-FLAGS = -g #-pg #-Wall -Wextra -Werror
+FLAGS = #-pg #-Wall -Wextra -Werror
+DFLAGS = -MMD -MP
+INCLUDES	:= -I./includes -I/usr/local/include
+FLAGS += -g
 CC = cc
 NAME = cube
-
+DEPS	:= $(OBJS:.o=.d)
+LIBS = -Lmlx_linux -lmlx -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 all: $(NAME)
 
+-include $(DEPS)
+
 $(NAME): $(SRC)
-	$(CC) $(FLAGS) $(SRC) -Lmlx_linux -lmlx -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(FLAGS) $(DFLAGS) $(SRC) $(LIBS)  $(INCLUDES) -o $(NAME)
 clean:
 	rm -f *.o
 

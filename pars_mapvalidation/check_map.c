@@ -1,4 +1,4 @@
-#include "../cube.h"
+#include "cube.h"
 
 void	check_map_valid(char **map)
 {
@@ -57,7 +57,7 @@ void	check_vide(char **map, t_game *game)
 	count = 0;
 	game->map_alloc = NULL;
 	while (map && map[i])
-	{	
+	{
 		if (ft_strlen(map[i]) > count)
 			count = ft_strlen(map[i]);
 		i++;
@@ -65,7 +65,7 @@ void	check_vide(char **map, t_game *game)
 	game->map_alloc = malloc((sizeof (char *)) * (i + 1));
 	i = 0;
 	while (map && map[i])
-	{	
+	{
 		game->map_alloc[i] = malloc(count + 1);
 		i++;
 	}

@@ -1,5 +1,5 @@
 
-#include "../cube.h"
+#include "cube.h"
 
 size_t	ft_strlen(char *str)
 {

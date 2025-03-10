@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/05 20:55:29 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/09 20:01:49 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,25 @@ void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
 	}
 	return (texture);
 }
-void	load_textures(t_data *img)
+void load_textures(t_data *img)
 {
-	img->east.img = load_texture(img->mlx_ptr, img->ea,
-			&(img->east.width), &(img->east.height));
-	img->north.img = load_texture(img->mlx_ptr, img->no,
-			&(img->north.width), &(img->north.height));
-	img->south.img = load_texture(img->mlx_ptr, img->we,
-			&(img->south.width), &(img->south.height));
-	img->west.img = load_texture(img->mlx_ptr, img->so,
-			&(img->west.width), &(img->west.height));
-	// img->gun_texture = load_texture(img->mlx_ptr, "coolgun.xpm",
-	// 		&(img->gun_texture_width), &(img->gun_texture_height));
-	img->north.addr = mlx_get_data_addr(img->north.img, &img->north.bits_per_pixel,
-										&img->north.line_length, &img->north.endian);
-	img->south.addr = mlx_get_data_addr(img->south.img, &img->south.bits_per_pixel,
-										&img->south.line_length, &img->south.endian);
-	img->east.addr = mlx_get_data_addr(img->east.img, &img->east.bits_per_pixel,
-										&img->east.line_length, &img->east.endian);
-	img->west.addr = mlx_get_data_addr(img->west.img, &img->west.bits_per_pixel,
-										&img->west.line_length, &img->west.endian);
+    img->east.img = load_texture(img->mlx_ptr, img->ea, &(img->east.width), &(img->east.height));
+    printf("Loaded east: width=%d, height=%d\n", img->east.width, img->east.height);
+    img->north.img = load_texture(img->mlx_ptr, img->no, &(img->north.width), &(img->north.height));
+    printf("Loaded north: width=%d, height=%d\n", img->north.width, img->north.height);
+    img->south.img = load_texture(img->mlx_ptr, img->we, &(img->south.width), &(img->south.height));
+    printf("Loaded south: width=%d, height=%d\n", img->south.width, img->south.height);
+    img->west.img = load_texture(img->mlx_ptr, img->so, &(img->west.width), &(img->west.height));
+    printf("Loaded west: width=%d, height=%d\n", img->west.width, img->west.height);
 
+    img->north.addr = mlx_get_data_addr(img->north.img, &img->north.bits_per_pixel,
+                                        &img->north.line_length, &img->north.endian);
+    img->south.addr = mlx_get_data_addr(img->south.img, &img->south.bits_per_pixel,
+                                        &img->south.line_length, &img->south.endian);
+    img->east.addr = mlx_get_data_addr(img->east.img, &img->east.bits_per_pixel,
+                                       &img->east.line_length, &img->east.endian);
+    img->west.addr = mlx_get_data_addr(img->west.img, &img->west.bits_per_pixel,
+                                       &img->west.line_length, &img->west.endian);
 }
 
 int main(int ac, char **av)

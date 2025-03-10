@@ -6,11 +6,11 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:22:38 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/01/24 17:36:44 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:24:23 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "cube.h"
 
 void update_camera(t_camera *camera, t_move *mov) {
 	double moveSpeed = MOV_SPEED;

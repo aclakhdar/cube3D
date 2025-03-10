@@ -1,5 +1,5 @@
 
-#include "../cube.h"
+#include "cube.h"
 
 int	index_n(char *buffer)
 {

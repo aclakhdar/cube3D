@@ -6,11 +6,11 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:24:42 by aclakhda          #+#    #+#             */
-/*   Updated: 2024/12/23 20:24:47 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:24:23 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "cube.h"
 
 static int	nbr_len(int nbr)
 {

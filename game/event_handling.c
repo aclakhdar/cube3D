@@ -1,5 +1,5 @@
 
-#include "../cube.h"
+#include "cube.h"
 int update_player(t_window *window)
 {
     if (window->mov.up) {

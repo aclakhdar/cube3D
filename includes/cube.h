@@ -62,7 +62,7 @@
 #define MAP_HEIGHT 20
 
 //debug
-#define DEBUG 1
+#define DEBUG 0
 # define BUFFER_SIZE 1
 extern char map[WINDOW_HEIGHT][WINDOW_WIDTH]; //tmp!!
 

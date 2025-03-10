@@ -1,4 +1,4 @@
-#include "../cube.h"
+#include "cube.h"
 
 void	check_newline(t_game *game)
 {

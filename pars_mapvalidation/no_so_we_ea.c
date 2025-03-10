@@ -1,4 +1,4 @@
-#include "../cube.h"
+#include "cube.h"
 
 
 void	rgb_stuff_norm(char **str_split, t_game *game)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:26:04 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/09 20:39:40 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/10 19:41:01 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "cube.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)// best way to put pixel in a display (using image)
 {

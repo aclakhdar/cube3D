@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:49:41 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/06 21:18:53 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/10 19:24:23 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cube.h"
+#include "cube.h"
 
 char map[WINDOW_HEIGHT][WINDOW_WIDTH] = { //tmp!!
 	"1111111111",

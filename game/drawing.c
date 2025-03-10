@@ -6,7 +6,7 @@
 /*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 19:41:57 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/10 19:42:00 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:42:58 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,23 +202,8 @@ void draw_3D(t_window *window, t_data *img, int i)
     int wall_top = (screen_height / 2) - (wall_height / 2);
     int wall_bottom = (screen_height / 2) + (wall_height / 2);
 
-<<<<<<< HEAD
-	if (window->f_line[i].dist < 0.0001)
-		window->f_line[i].dist = 0.0001;
-	wall_height = cons / window->f_line[i].dist;
-	wall_top = (screen_height / 2) - (wall_height / 2);
-	wall_bottom = (screen_height / 2) + (wall_height / 2);
-	if (window->f_line[i].type == HOR) {
-        wall_x = fmod(window->f_line[i].x, COL_S) / COL_S; // Use fmod for horizontal
-        tex = (window->f_line[i].y > window->player.y) ? &img->south : &img->north;
-    } else {
-        wall_x = fmod(window->f_line[i].y, COL_S) / COL_S; // Use fmod for vertical
-        tex = (window->f_line[i].x > window->player.x) ? &img->east : &img->west;
-    }
-=======
     t_tex *tex;
     double wall_x;
->>>>>>> perfect
 
     // Texture selection and wall_x calculation
     if (window->f_line[i].type == HOR)
@@ -261,43 +246,6 @@ void draw_3D(t_window *window, t_data *img, int i)
 
 void dda_init(t_window *window, t_data *img)
 {
-<<<<<<< HEAD
-	float j = window->player.dir - FOV/2; // ray angle
-	float	degree = (float)FOV / WINDOW_WIDTH;
-	printf("degree = %f\n", degree);
-	for (int i = 0; i < WINDOW_WIDTH; i++)
-	{
-		if (j < 0)
-			j += 360;
-		if (j >= 360)
-			j -= 360;
-		window->h_line[i] = horizontal_line(window, j, img);
-		window->v_line[i] = vertical_line(window, j, img);
-		if (window->v_line[i].dist <= window->h_line[i].dist)
-		{
-			if (window->v_line[i].dist == window->h_line[i].dist)
-			{
-				if ((i - 1) && window->f_line[i - 1].type == HOR && window->f_line[i + 1].type == HOR)
-					window->f_line[i] = window->h_line[i];
-				else
-					window->f_line[i] = window->v_line[i];
-			}
-			else
-				window->f_line[i] = window->v_line[i];
-		}
-		else
-			window->f_line[i] = window->h_line[i];
-		window->f_line[i].dist = window->f_line[i].dist * cos(degree_to_radian(window->player.dir - j));// correct shufa dyal l7uta
-		if (DEBUG)
-			draw_line(img, window->player.x, window->player.y, window->f_line[i].x, window->f_line[i].y, RED);
-		else
-			draw_3D(window, img, i);
-		j += degree;
-	}
-	printf("----------------\n");
-	if (DEBUG)
-		draw_square(img, window->player.x, window->player.y, 3, BOCCHI);
-=======
     float j = window->player.dir - (FOV / 2.0); // Starting ray angle
     int ray_num = WINDOW_WIDTH; // One ray per screen column
     float degree = (float)FOV / (ray_num - 1); // Fine angle step
@@ -334,7 +282,6 @@ void dda_init(t_window *window, t_data *img)
     }
     if (DEBUG)
         draw_square(img, window->player.x, window->player.y, 3, BOCCHI);
->>>>>>> perfect
 }
 
 void	draw_walls(t_data *img)

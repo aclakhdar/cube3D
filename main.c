@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/11 16:18:57 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:44:34 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	set_dir_angle(t_data *data, int x, int y)
 		data->dir = 0;
 }
 
-void	find_player_position(t_data *data)
+void	initialize_player(t_data *data)
 {
 	int	y;
 	int	x;
@@ -46,11 +46,7 @@ void	find_player_position(t_data *data)
 		}
 	}
 }
-void	initialize_player(t_data *data)
-{
-	find_player_position(data);
 
-}
 void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
 {
 	void	*texture;
@@ -63,26 +59,33 @@ void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
 	}
 	return (texture);
 }
-void load_textures(t_data *img)
+
+void	load_textures(t_data *img)
 {
-    img->east.img = load_texture(img->mlx_ptr, img->ea, &(img->east.width), &(img->east.height));
-    img->north.img = load_texture(img->mlx_ptr, img->no, &(img->north.width), &(img->north.height));
-    img->south.img = load_texture(img->mlx_ptr, img->we, &(img->south.width), &(img->south.height));
-    img->west.img = load_texture(img->mlx_ptr, img->so, &(img->west.width), &(img->west.height));
-    img->north.addr = mlx_get_data_addr(img->north.img, &img->north.bits_per_pixel,
-                                        &img->north.line_length, &img->north.endian);
-    img->south.addr = mlx_get_data_addr(img->south.img, &img->south.bits_per_pixel,
-                                        &img->south.line_length, &img->south.endian);
-    img->east.addr = mlx_get_data_addr(img->east.img, &img->east.bits_per_pixel,
-                                       &img->east.line_length, &img->east.endian);
-    img->west.addr = mlx_get_data_addr(img->west.img, &img->west.bits_per_pixel,
-                                       &img->west.line_length, &img->west.endian);
+	img->east.img = load_texture(img->mlx_ptr, img->ea, \
+		&(img->east.width), &(img->east.height));
+	img->north.img = load_texture(img->mlx_ptr, img->no, \
+		&(img->north.width), &(img->north.height));
+	img->south.img = load_texture(img->mlx_ptr, img->we, \
+		&(img->south.width), &(img->south.height));
+	img->west.img = load_texture(img->mlx_ptr, img->so, \
+		&(img->west.width), &(img->west.height));
+	img->north.addr = mlx_get_data_addr(img->north.img, \
+		&img->north.bits_per_pixel, &img->north.line_length, \
+		&img->north.endian);
+	img->south.addr = mlx_get_data_addr(img->south.img, \
+	&img->south.bits_per_pixel, &img->south.line_length, &img->south.endian);
+	img->east.addr = mlx_get_data_addr(img->east.img, \
+		&img->east.bits_per_pixel, &img->east.line_length, &img->east.endian);
+	img->west.addr = mlx_get_data_addr(img->west.img, \
+		&img->west.bits_per_pixel, &img->west.line_length, &img->west.endian);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_data	img;
-	parsing(ac,av,&img);
+
+	parsing(ac, av, &img);
 	initialize_player(&img);
 	game(&img);
 	return (0);

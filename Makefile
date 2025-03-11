@@ -1,5 +1,6 @@
 SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c \
 	game/event_handling2.c \
+	game/event_handling3.c \
 	game/utils1.c \
 	game/utils2.c \
 	game/utils3.c \
@@ -15,7 +16,7 @@ SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c 
 FLAGS = #-pg #-Wall -Wextra -Werror
 DFLAGS = -MMD -MP
 INCLUDES	:= -I./includes -I/usr/local/include
-FLAGS += -g
+FLAGS += -ggdb
 CC = cc
 NAME = cube
 DEPS	:= $(OBJS:.o=.d)

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:38:19 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/10 21:08:05 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:36:55 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	check_texture_color(char *line, t_game *game)
 		err_msg();
 	free (str_split);
 }
+
 void	read_map(char *map_name, t_game *game)
 {
 	char	*line;
@@ -56,7 +57,7 @@ void	read_map(char *map_name, t_game *game)
 	fd = open(map_name, O_RDONLY);
 	if (fd == -1)
 	{
-		write(2,"cannot oppen map!",17);
+		write(2, "cannot oppen map!", 17);
 		exit(1);
 	}
 	line = get_next_line(fd);
@@ -67,6 +68,7 @@ void	read_map(char *map_name, t_game *game)
 	}
 	close(fd);
 }
+
 void	alloc_map(t_game *game, t_data *data)
 {
 	int	i;
@@ -120,6 +122,7 @@ void	map_size(t_game *game, t_data *data)
 	data->nb_rows = i;
 	data->nb_cols = data->max;
 }
+
 void	free_all(t_game *game)
 {
 	int	i;
@@ -144,4 +147,3 @@ void	free_all(t_game *game)
 	free(game->f);
 	free(game);
 }
-

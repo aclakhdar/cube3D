@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:40:23 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/10 21:08:05 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:36:09 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_newline(t_game *game)
 			{
 				if (game->str[i] == '\n' && game->str[i + 1] == '\n')
 				{
-					write(2,"error empty line",16);
+					write(2, "error empty line", 16);
 					exit(1);
 				}
 				i++;
@@ -55,8 +55,6 @@ int	check_map_name(char *map_name)
 	return (0);
 }
 
-
-
 void	get_map(t_game *game, t_data *data)
 {
 	data->no = game->no;
@@ -70,6 +68,7 @@ void	get_map(t_game *game, t_data *data)
 	data->b_f = game->b_f;
 	data->g_f = game->g_f;
 }
+
 void	map_check(t_game *gameInfo, t_data *data)
 {
 	check_map_valid(gameInfo->map);
@@ -80,34 +79,32 @@ void	map_check(t_game *gameInfo, t_data *data)
 	map_size(gameInfo, data);
 	get_map(gameInfo, data);
 }
+
 void	parsing(int ac, char **av, t_data *data)
 {
-	int	i;
-	int	j;
-	t_game *gameInfo;
+	int		i;
+	int		j;
+	t_game	*gameinfo;
 
 	i = -1;
 	j = 6;
 	check_ac(ac);
 	if (check_map_name(av[1]) == 0)
+		err_msg2("invalide map name");
+	gameinfo = malloc(sizeof(t_game));
+	read_map(av[1], gameinfo);
+	check_newline(gameinfo);
+	gameinfo->array = ft_split(gameinfo->str, '\n');
+	while (gameinfo->array[++i] && j)
 	{
-		write(2,"invalide map name",17);
-		exit(1);
-	}
-	gameInfo = malloc(sizeof(t_game));
-	read_map(av[1],gameInfo);
-	check_newline(gameInfo);
-	gameInfo->array = ft_split(gameInfo->str, '\n');
-	while (gameInfo->array[++i] && j)
-	{
-		check_texture_color(gameInfo->array[i], gameInfo);
+		check_texture_color(gameinfo->array[i], gameinfo);
 		j--;
 	}
-	if (gameInfo->no == NULL || gameInfo->we == NULL
-		|| gameInfo->ea == NULL || gameInfo->so == NULL
-		|| gameInfo->c == NULL || gameInfo->f == NULL)
+	if (gameinfo->no == NULL || gameinfo->we == NULL
+		|| gameinfo->ea == NULL || gameinfo->so == NULL
+		|| gameinfo->c == NULL || gameinfo->f == NULL)
 		err_msg();
-	gameInfo->map = gameInfo->array + 6;
-	map_check(gameInfo, data);
-	free_all(gameInfo);
+	gameinfo->map = gameinfo->array + 6;
+	map_check(gameinfo, data);
+	free_all(gameinfo);
 }

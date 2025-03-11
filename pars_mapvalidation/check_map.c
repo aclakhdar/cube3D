@@ -1,27 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/11 21:33:05 by mbouras           #+#    #+#             */
+/*   Updated: 2025/03/11 21:33:06 by mbouras          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube.h"
-
-void	check_map_valid(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == '0' || map[i][j] == ' ' || map[i][j] == '1'
-					|| map[i][j] == 'N' || map[i][j] == 'S'
-					|| map[i][j] == 'E' || map[i][j] == 'W')
-				j++;
-			else
-				err_msg2("Error\nMap not valid\n");
-		}
-		i++;
-	}
-}
 
 void	check_player_valid(char **map)
 {
@@ -57,7 +46,7 @@ void	check_vide(char **map, t_game *game)
 	count = 0;
 	game->map_alloc = NULL;
 	while (map && map[i])
-	{	
+	{
 		if (ft_strlen(map[i]) > count)
 			count = ft_strlen(map[i]);
 		i++;
@@ -65,7 +54,7 @@ void	check_vide(char **map, t_game *game)
 	game->map_alloc = malloc((sizeof (char *)) * (i + 1));
 	i = 0;
 	while (map && map[i])
-	{	
+	{
 		game->map_alloc[i] = malloc(count + 1);
 		i++;
 	}
@@ -111,6 +100,7 @@ void	err_in_map(char **map, int i, int j)
 			err_msg2("Error\nU cccan't\n");
 	}
 }
+
 void	check_game(char **map)
 {
 	int	i;

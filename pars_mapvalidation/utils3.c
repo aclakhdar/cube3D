@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:17:33 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/10 21:19:29 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:37:10 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	rgb_stuff(char *line, t_game *game, int index)
 	else
 		free (str_split);
 }
-
 
 int	check_texture(char *line)
 {

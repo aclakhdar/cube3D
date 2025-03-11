@@ -3,47 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   event_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:39:31 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 19:35:29 by aclakhda         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:28:24 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-static void	move_player(t_window *window, double angle)
+int	check_collision(t_window *window, double old_x, double old_y, \
+	t_collision *colision)
 {
-	window->player.x += cos(angle * PI / 180) * MOV_SPEED;
-	window->player.y += sin(angle * PI / 180) * MOV_SPEED;
-}
+	int	map_x;
+	int	map_y;
 
-static void	rotate_player(t_window *window, double angle)
-{
-	window->player.dir += angle;
-	if (window->player.dir < 0)
-		window->player.dir += 360;
-	if (window->player.dir >= 360)
-		window->player.dir -= 360;
-}
-
-int check_collision(t_window *window, double old_x, double old_y, double new_x, double new_y)
-{
-	double delta_x = new_x - old_x;
-	double delta_y = new_y - old_y;
-	double dist = sqrt(delta_x * delta_x + delta_y * delta_y);
-
-	if (dist == 0)
-	return (0);
-
-	double dir_x = delta_x / dist;
-	double dir_y = delta_y / dist;
-	double check_x = new_x + dir_x * 20.0;
-	double check_y = new_y + dir_y * 20.0;
-	int map_x = (int)(check_x / COL_S);
-	int map_y = (int)(check_y / COL_S);
-
-	if (map_x < 0 || map_x >= window->image->nb_cols ||
+	colision->delta_x = colision->new_x - old_x;
+	colision->delta_y = colision->new_y - old_y;
+	colision->dist = sqrt(colision->delta_x * colision->delta_x + \
+		colision->delta_y * colision->delta_y);
+	if (colision->dist == 0)
+		return (0);
+	colision->dir_x = colision->delta_x / colision->dist;
+	colision->dir_y = colision->delta_y / colision->dist;
+	colision->check_x = colision->new_x + colision->dir_x * 20.0;
+	colision->check_y = colision->new_y + colision->dir_y * 20.0;
+	map_x = (int)(colision->check_x / COL_S);
+	map_y = (int)(colision->check_y / COL_S);
+	if (map_x < 0 || map_x >= window->image->nb_cols || \
 		map_y < 0 || map_y >= window->image->nb_rows)
 		return (1);
 	if (window->image->map[map_y][map_x] == '1')
@@ -51,63 +38,43 @@ int check_collision(t_window *window, double old_x, double old_y, double new_x, 
 	return (0);
 }
 
-int update_player(t_window *window)
+int	rotate_left(t_window *window)
 {
-	double new_x, new_y;
-	double old_x = window->player.x; // store current position
-	double old_y = window->player.y;
+	window->player.dir -= ROT_SPEED;
+	if (window->player.dir < 0)
+		window->player.dir += 360;
+	return (0);
+}
+
+int	rotate_right(t_window *window)
+{
+	window->player.dir += ROT_SPEED;
+	if (window->player.dir >= 360)
+		window->player.dir -= 360;
+	return (0);
+}
+
+int	update_player(t_window *window)
+{
+	double	old_x;
+	double	old_y;
+
+	if (!window || !window->image)
+		return (1);
+	old_x = window->player.x;
+	old_y = window->player.y;
 	if (window->mov.up)
-	{
-	    new_x = window->player.x + cos(window->player.dir * PI / 180) * MOV_SPEED;
-	    new_y = window->player.y + sin(window->player.dir * PI / 180) * MOV_SPEED;
-	    if (!check_collision(window, old_x, old_y, new_x, new_y))
-	    {
-	        window->player.x = new_x;
-	        window->player.y = new_y;
-	    }
-	}
+		move_up(window, old_x, old_y);
 	if (window->mov.down)
-	{
-	    new_x = window->player.x - cos(window->player.dir * PI / 180) * MOV_SPEED;
-	    new_y = window->player.y - sin(window->player.dir * PI / 180) * MOV_SPEED;
-	    if (!check_collision(window, old_x, old_y, new_x, new_y))
-	    {
-	        window->player.x = new_x;
-	        window->player.y = new_y;
-	    }
-	}
+		move_down(window, old_x, old_y);
 	if (window->mov.left)
-	{
-	    new_x = window->player.x + cos((window->player.dir - 90) * PI / 180) * MOV_SPEED;
-	    new_y = window->player.y + sin((window->player.dir - 90) * PI / 180) * MOV_SPEED;
-	    if (!check_collision(window, old_x, old_y, new_x, new_y))
-	    {
-	        window->player.x = new_x;
-	        window->player.y = new_y;
-	    }
-	}
+		move_left(window, old_x, old_y);
 	if (window->mov.right)
-	{
-	    new_x = window->player.x + cos((window->player.dir + 90) * PI / 180) * MOV_SPEED;
-	    new_y = window->player.y + sin((window->player.dir + 90) * PI / 180) * MOV_SPEED;
-	    if (!check_collision(window, old_x, old_y, new_x, new_y))
-	    {
-	        window->player.x = new_x;
-	        window->player.y = new_y;
-	    }
-	}
+		move_right(window, old_x, old_y);
 	if (window->mov.r_left)
-	{
-	    window->player.dir -= ROT_SPEED;
-	    if (window->player.dir < 0)
-	        window->player.dir += 360;
-	}
+		rotate_left(window);
 	if (window->mov.r_right)
-	{
-	    window->player.dir += ROT_SPEED;
-	    if (window->player.dir >= 360)
-	        window->player.dir -= 360;
-	}
+		rotate_right(window);
 	draw_scene(window->image, window);
 	return (0);
 }

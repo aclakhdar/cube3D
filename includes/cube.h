@@ -160,6 +160,19 @@ typedef struct s_data {
     int		line_length;
     int		endian;
 	int		dir;
+	int		screen_height;
+	int		wall_height;
+	int		wall_top;
+	int		wall_bottom;
+	double	wall_x;
+	int		tex_x;
+	int		y;
+	double tex_y;
+	double	dist;
+	float	degree;
+	float	ray_angle;
+	int color;
+	t_tex	*tex;
 	t_tex 	north;
 	t_tex	south;
 	t_tex	east;
@@ -221,7 +234,6 @@ int		update_player(t_window *window);
 void	draw_scene(t_data *img, t_window *window);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 float	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color);
-void 	draw_square(t_data *img, int x_start, int y_start, int size, int color);
 void	draw_walls(t_data *img);
 float	degree_to_radian(float degree);
 
@@ -249,6 +261,18 @@ void	check_c(t_game *game, char **str_split);
 void	err_msg2(char *str);
 void	err_msg(void);
 
+void	check_no(char *line, t_game *game, int fd, char **str_split);
+int	check_color(char *line, t_game *game, int index);
+int	check_texture(char *line);
+void	rgb_stuff(char *line, t_game *game, int index);
+void	rgb_stuff_norm(char **str_split, t_game *game);
+void	check_ac(int ac);
+
+void	free_all(t_game *game);
+void	map_size(t_game *game, t_data *data);
+void	alloc_map(t_game *game, t_data *data);
+void	read_map(char *map_name, t_game *game);
+void	check_texture_color(char *line, t_game *game);
 
 void	check_map_valid(char **map);
 void	check_player_valid(char **map);
@@ -256,4 +280,11 @@ void	check_vide(char **map, t_game *game);
 void	check_game(char **map);
 void	check_vide_norm(char **map, t_game *game, int count);
 void	load_textures(t_data *img);
+void	draw_background(t_data *img, t_player *player);
+void	draw_square(t_data *img, int x_start, int y_start, int color);
+t_ray	horizontal_line(t_window *window, float dir, t_data *img);
+int	check_wall_collision(double x, double y, t_data *img);
+t_ray	vertical_line(t_window *window, float dir, t_data *img);
+int get_pixel(t_tex *tex, int x, int y);
 #endif
+

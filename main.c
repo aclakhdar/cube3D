@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/09 20:01:49 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/11 16:18:57 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,9 @@ void	*load_texture(void *mlx_ptr, char *file_name, int *width, int *height)
 void load_textures(t_data *img)
 {
     img->east.img = load_texture(img->mlx_ptr, img->ea, &(img->east.width), &(img->east.height));
-    printf("Loaded east: width=%d, height=%d\n", img->east.width, img->east.height);
     img->north.img = load_texture(img->mlx_ptr, img->no, &(img->north.width), &(img->north.height));
-    printf("Loaded north: width=%d, height=%d\n", img->north.width, img->north.height);
     img->south.img = load_texture(img->mlx_ptr, img->we, &(img->south.width), &(img->south.height));
-    printf("Loaded south: width=%d, height=%d\n", img->south.width, img->south.height);
     img->west.img = load_texture(img->mlx_ptr, img->so, &(img->west.width), &(img->west.height));
-    printf("Loaded west: width=%d, height=%d\n", img->west.width, img->west.height);
-
     img->north.addr = mlx_get_data_addr(img->north.img, &img->north.bits_per_pixel,
                                         &img->north.line_length, &img->north.endian);
     img->south.addr = mlx_get_data_addr(img->south.img, &img->south.bits_per_pixel,
@@ -87,14 +82,8 @@ void load_textures(t_data *img)
 int main(int ac, char **av)
 {
 	t_data	img;
-	img.tilesize = 32;
 	parsing(ac,av,&img);
-	if (img.nb_cols > 35 || img.nb_rows > 24)
-		img.tilesize = 16;
-	if (img.nb_cols > 70 || img.nb_rows > 48)
-		img.tilesize = 4;
 	initialize_player(&img);
 	game(&img);
-
 	return (0);
 }

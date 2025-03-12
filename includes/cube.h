@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:02:02 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 22:04:11 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:24:40 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ int		check_collision(t_window *window, double old_x, double old_y, \
 void	check_map_valid(char **map);
 void	check_player_valid(char **map);
 void	check_vide(char **map, t_game *game);
-void	check_game(char **map);
+void	check_game(char **map, t_game *game);
 void	check_vide_norm(char **map, t_game *game, int count);
 void	load_textures(t_data *img);
 void	draw_background(t_data *img, t_player *player);

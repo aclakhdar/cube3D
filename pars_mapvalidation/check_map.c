@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:33:05 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:33:06 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:40:34 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	err_in_map(char **map, int i, int j)
 	}
 }
 
-void	check_game(char **map)
+void	check_game(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -112,19 +112,26 @@ void	check_game(char **map)
 	{
 		j = 0;
 		while (map[i][j])
-		{
+		{ 	
 			err_in_map(map, i, j);
 			j++;
 		}
 		if (ft_strchr("0EWNS", map[i][j - 1]))
-			err_msg2("Error\n cccccan't\n");
+		{
+			free_all(game);
+			err_msg2("Error\n can't run map\n");	
+		}
 		i++;
 	}
 	j = 0;
 	while (map[i - 1][j])
 	{
 		if (map[i - 1][j] != '1' && map[i - 1][j] != '+')
+		{
+			
+			free_all(game);
 			err_msg2("Error\nUu ccccan't\n");
+		}
 		j++;
 	}
 }

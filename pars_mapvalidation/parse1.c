@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:40:23 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:36:09 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:33:09 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	map_check(t_game *gameInfo, t_data *data)
 	check_map_valid(gameInfo->map);
 	check_player_valid(gameInfo->map);
 	check_vide(gameInfo->map, gameInfo);
-	check_game(gameInfo->map_alloc);
+	printf("med alpha\n");
+	check_game(gameInfo->map_alloc, gameInfo);
 	alloc_map(gameInfo, data);
 	map_size(gameInfo, data);
 	get_map(gameInfo, data);
@@ -105,6 +106,7 @@ void	parsing(int ac, char **av, t_data *data)
 		|| gameinfo->c == NULL || gameinfo->f == NULL)
 		err_msg();
 	gameinfo->map = gameinfo->array + 6;
+	printf("hey there\n");
 	map_check(gameinfo, data);
 	free_all(gameinfo);
 }

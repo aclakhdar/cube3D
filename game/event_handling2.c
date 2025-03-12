@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:28:27 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:25:41 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:03:50 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,43 @@ int	handle_key_press(int keycode, t_window *window)
 	return (0);
 }
 
+void	destroy_textures(t_data *img)
+{
+	if (img->north.img)
+		mlx_destroy_image(img->mlx_ptr, img->north.img);
+	if (img->south.img)
+		mlx_destroy_image(img->mlx_ptr, img->south.img);
+	if (img->east.img)
+		mlx_destroy_image(img->mlx_ptr, img->east.img);
+	if (img->west.img)
+		mlx_destroy_image(img->mlx_ptr, img->west.img);
+}
+
+void	free_map(char **array)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 int	handle_escape(int keycode, t_window *window)
 {
 	if (keycode == ESC)
 	{
+		free_map(window->image->map);
+		free(window->image->ea);
+		free(window->image->we);
+		free(window->image->so);
+		free(window->image->no);
+		destroy_textures(window->image);
 		mlx_destroy_image(window->mlx, window->image->img);
 		mlx_destroy_image(window->mlx, window->img.img);
 		mlx_destroy_window(window->mlx, window->win);

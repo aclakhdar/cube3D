@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:18:11 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:33:20 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:46:14 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_so(char *line, t_game *game, int fd, char **str_split)
 {
 	if (check_texture(line) == 0)
 		err_msg2("Error\nSO not valid\n");
-	game->so = ft_strdup(str_split[1]);
+	 game->so= ft_strdup(str_split[1]);
 	free(str_split[0]);
 	free(str_split[1]);
 	fd = open(game->so, O_RDONLY);

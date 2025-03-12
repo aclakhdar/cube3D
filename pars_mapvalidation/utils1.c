@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:38:19 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:36:55 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 00:47:02 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	map_size(t_game *game, t_data *data)
 
 void	free_all(t_game *game)
 {
+	printf("hmar\n");
 	int	i;
 	int	j;
 
@@ -142,6 +143,10 @@ void	free_all(t_game *game)
 		j++;
 	}
 	free(game->str);
+	free(game->so);
+	free(game->we);
+	free(game->ea);
+	free(game->no);
 	free(game->array);
 	free(game->c);
 	free(game->f);

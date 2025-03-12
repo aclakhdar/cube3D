@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:40:23 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 00:33:09 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 18:00:00 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	check_newline(t_game *game)
 			{
 				if (game->str[i] == '\n' && game->str[i + 1] == '\n')
 				{
+					free_simple(game);
 					write(2, "error empty line", 16);
 					exit(1);
 				}
@@ -71,10 +72,9 @@ void	get_map(t_game *game, t_data *data)
 
 void	map_check(t_game *gameInfo, t_data *data)
 {
-	check_map_valid(gameInfo->map);
-	check_player_valid(gameInfo->map);
+	check_map_valid(gameInfo->map, gameInfo);
+	check_player_valid(gameInfo->map, gameInfo);
 	check_vide(gameInfo->map, gameInfo);
-	printf("med alpha\n");
 	check_game(gameInfo->map_alloc, gameInfo);
 	alloc_map(gameInfo, data);
 	map_size(gameInfo, data);
@@ -104,9 +104,8 @@ void	parsing(int ac, char **av, t_data *data)
 	if (gameinfo->no == NULL || gameinfo->we == NULL
 		|| gameinfo->ea == NULL || gameinfo->so == NULL
 		|| gameinfo->c == NULL || gameinfo->f == NULL)
-		err_msg();
+		err_msg3(gameinfo);
 	gameinfo->map = gameinfo->array + 6;
-	printf("hey there\n");
 	map_check(gameinfo, data);
 	free_all(gameinfo);
 }

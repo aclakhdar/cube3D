@@ -6,13 +6,13 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:33:05 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 00:40:34 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:23:40 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-void	check_player_valid(char **map)
+void	check_player_valid(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -34,7 +34,10 @@ void	check_player_valid(char **map)
 		i++;
 	}
 	if (count != 1)
+	{
+		free_bfr_map(game);
 		err_msg2("Error\nPlayer not valid\n");
+	}
 }
 
 void	check_vide(char **map, t_game *game)
@@ -90,18 +93,21 @@ void	check_vide_norm(char **map, t_game *game, int count)
 	}
 }
 
-void	err_in_map(char **map, int i, int j)
+void	err_in_map(char **map, int i, int j, t_game *game)
 {
 	if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
 			|| map[i][j] == 'E' || map[i][j] == 'W')
 	{
 		if ((i < 1 || map[i - 1][j] == '+' ) || (j < 1 || map[i][j - 1] == '+' )
 			|| (map[i + 1] && map[i + 1][j] == '+') || map[i][j + 1] == '+')
-			err_msg2("Error\nU cccan't\n");
+			{
+				free_exit(game);
+				err_msg2("Error\nU cccan't\n");
+			}
 	}
 }
 
-void	check_game(char **map, t_game *game)
+void	 check_game(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -113,12 +119,12 @@ void	check_game(char **map, t_game *game)
 		j = 0;
 		while (map[i][j])
 		{ 	
-			err_in_map(map, i, j);
+			err_in_map(map, i, j, game);
 			j++;
 		}
 		if (ft_strchr("0EWNS", map[i][j - 1]))
 		{
-			free_all(game);
+			free_exit(game);
 			err_msg2("Error\n can't run map\n");	
 		}
 		i++;
@@ -129,7 +135,7 @@ void	check_game(char **map, t_game *game)
 		if (map[i - 1][j] != '1' && map[i - 1][j] != '+')
 		{
 			
-			free_all(game);
+			free_exit(game);
 			err_msg2("Error\nUu ccccan't\n");
 		}
 		j++;

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:02:02 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 00:24:40 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 18:00:26 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define WINDOW_HEIGHT 960
 # define FOV 60
 # define COL_S 64
-# define D_PLAN 1000
+# define D_PLAN 1039
 # define MOV_SPEED 1.5
 # define ROT_SPEED 1.5
 # define DOV 50
@@ -280,6 +280,8 @@ void	check_f(t_game *game, char **str_split);
 void	check_c(t_game *game, char **str_split);
 void	err_msg2(char *str);
 void	err_msg(void);
+void	free_exit(t_game *game);
+void	free_bfr_map(t_game *game);
 
 void	check_no(char *line, t_game *game, int fd, char **str_split);
 int		check_color(char *line, t_game *game, int index);
@@ -289,6 +291,8 @@ void	rgb_stuff_norm(char **str_split, t_game *game);
 void	check_ac(int ac);
 
 void	free_all(t_game *game);
+void	free_map(char **array);
+void	err_msg3(t_game *game);
 void	map_size(t_game *game, t_data *data);
 void	alloc_map(t_game *game, t_data *data);
 void	read_map(char *map_name, t_game *game);
@@ -303,8 +307,8 @@ int		move_player(t_collision *colision, double old_x, \
 int		check_collision(t_window *window, double old_x, double old_y, \
 	t_collision *colision);
 
-void	check_map_valid(char **map);
-void	check_player_valid(char **map);
+void	check_map_valid(char **map, t_game *gaminfo);
+void	check_player_valid(char **map, t_game *game);
 void	check_vide(char **map, t_game *game);
 void	check_game(char **map, t_game *game);
 void	check_vide_norm(char **map, t_game *game, int count);
@@ -315,4 +319,5 @@ t_ray	horizontal_line(t_window *window, float dir, t_data *img);
 int		check_wall_collision(double x, double y, t_data *img);
 t_ray	vertical_line(t_window *window, float dir, t_data *img);
 int		get_pixel(t_tex *tex, int x, int y);
+void free_simple(t_game *game);
 #endif

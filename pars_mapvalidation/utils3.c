@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:17:33 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:37:10 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 17:36:02 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,19 @@ int	check_color(char *line, t_game *game, int index)
 void	check_no(char *line, t_game *game, int fd, char **str_split)
 {
 	if (check_texture(line) == 0)
+	{
+		free_map(str_split);
+		free_bfr_map(game);
 		err_msg2("Error\nNO not valid\n");
+	}
 	game->no = ft_strdup(str_split[1]);
 	free(str_split[0]);
 	free(str_split[1]);
 	fd = open(game->no, O_RDONLY);
 	if (fd == -1)
+	{
+		free(str_split);
+		free_bfr_map(game);
 		err_msg2("FD not a valid texture\n");
+	}
 }

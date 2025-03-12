@@ -18,7 +18,7 @@ DFLAGS = -MMD -MP
 INCLUDES	:= -I./includes -I/usr/local/include
 FLAGS += -ggdb
 CC = cc
-NAME = cube
+NAME = cub3D
 DEPS	:= $(OBJS:.o=.d)
 LIBS = -Lmlx_linux -lmlx -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:38:19 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 00:47:02 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 18:03:59 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	check_texture_color(char *line, t_game *game)
 	free (str_split);
 }
 
+void free_simple(t_game *game)
+{
+	free(game->str);
+	free(game);
+}
 void	read_map(char *map_name, t_game *game)
 {
 	char	*line;
@@ -57,7 +62,8 @@ void	read_map(char *map_name, t_game *game)
 	fd = open(map_name, O_RDONLY);
 	if (fd == -1)
 	{
-		write(2, "cannot oppen map!", 17);
+		free_simple(game);
+		write(2, "cannot oppen map! \n", 17);
 		exit(1);
 	}
 	line = get_next_line(fd);
@@ -125,7 +131,6 @@ void	map_size(t_game *game, t_data *data)
 
 void	free_all(t_game *game)
 {
-	printf("hmar\n");
 	int	i;
 	int	j;
 
@@ -142,12 +147,58 @@ void	free_all(t_game *game)
 		free(game->array[j]);
 		j++;
 	}
+	free(game->array);
+	free(game->str);
+	free(game->c);
+	free(game->f);
+	free(game);
+}
+
+void	free_exit(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (game->map_alloc[i])
+	{
+		free(game->map_alloc[i]);
+		i++;
+	}
+	free(game->map_alloc);
+	j = 0;
+	while (game->array[j])
+	{
+		free(game->array[j]);
+		j++;
+	}
+	printf("hey there\n");
+	free(game->array);
 	free(game->str);
 	free(game->so);
 	free(game->we);
 	free(game->ea);
 	free(game->no);
+	free(game->c);
+	free(game->f);
+	free(game);
+}
+void	free_bfr_map(t_game *game)
+{
+	int	j;
+
+	j = 0;
+	while (game->array[j])
+	{
+		free(game->array[j]);
+		j++;
+	}
 	free(game->array);
+	free(game->str);
+	free(game->so);
+	free(game->we);
+	free(game->ea);
+	free(game->no);
 	free(game->c);
 	free(game->f);
 	free(game);

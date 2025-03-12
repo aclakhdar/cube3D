@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:40:18 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 19:10:52 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:38:57 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	game(t_data *img)
 	draw_scene(img, &window);
 	mlx_hook(win, 2, 1L << 0, key_press, &window);
 	mlx_hook(win, 3, 1L << 1, key_release, &window);
+	mlx_hook(win, 17, 0, mouse_exit, &window);
 	mlx_loop_hook(mlx, update_player, &window);
 	mlx_loop(mlx);
 }

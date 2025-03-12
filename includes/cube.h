@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:02:02 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 18:00:26 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:40:53 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ int		move_player(t_collision *colision, double old_x, \
 	double old_y, t_window *window);
 int		check_collision(t_window *window, double old_x, double old_y, \
 	t_collision *colision);
-
+int    mouse_exit(t_window *window);
 void	check_map_valid(char **map, t_game *gaminfo);
 void	check_player_valid(char **map, t_game *game);
 void	check_vide(char **map, t_game *game);
@@ -320,4 +320,5 @@ int		check_wall_collision(double x, double y, t_data *img);
 t_ray	vertical_line(t_window *window, float dir, t_data *img);
 int		get_pixel(t_tex *tex, int x, int y);
 void free_simple(t_game *game);
+void	destroy_textures(t_data *img);
 #endif

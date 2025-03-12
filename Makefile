@@ -1,6 +1,7 @@
 SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c \
 	game/event_handling2.c \
 	game/event_handling3.c \
+	game/mouse_exit.c \
 	game/utils1.c \
 	game/utils2.c \
 	game/utils3.c \

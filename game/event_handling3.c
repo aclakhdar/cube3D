@@ -6,22 +6,31 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:26:41 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 21:28:38 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/13 20:36:54 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-int	move_player(t_collision *colision, double old_x, \
-	double old_y, t_window *window)
+int	move_player(t_collision *colision, double old_x, double old_y, t_window *window)
 {
-	if (!check_collision(window, old_x, old_y, colision))
-	{
-		window->player.x = colision->new_x;
-		window->player.y = colision->new_y;
-	}
+	t_collision temp_col;
+
+	// First, check horizontal movement
+	temp_col = *colision;
+	temp_col.new_y = old_y;
+	if (!check_collision(window, old_x, old_y, &temp_col))
+		window->player.x = temp_col.new_x;
+
+	// Then, check vertical movement
+	temp_col = *colision;
+	temp_col.new_x = old_x;
+	if (!check_collision(window, old_x, old_y, &temp_col))
+		window->player.y = temp_col.new_y;
+
 	return (0);
 }
+
 
 int	move_up(t_window *window, double old_x, double old_y)
 {

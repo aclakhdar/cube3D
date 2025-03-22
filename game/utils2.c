@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:06:21 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 19:09:17 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/22 15:41:58 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_ray	horizontal_line(t_window *window, float dir, t_data *img)
 	init_horizontal_steps(&x_step, &y_step, dir);
 	while (dov--)
 	{
-		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
+		// if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 			if (check_wall_collision(x, y, img))
 				return (handle_hor_wall_hit(x, y, window, img));
 		x += x_step;

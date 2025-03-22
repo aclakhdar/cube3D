@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aclakhda <aclakhda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:07:55 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/11 18:35:30 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/03/22 15:41:17 by aclakhda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ t_ray	vertical_line(t_window *window, float dir, t_data *img)
 	init_vertical_steps(&x_steps, &y_steps, dir);
 	while (dov--)
 	{
-		if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
+		// if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 			if (check_wall_collision(x, y, img))
 				return (handle_wall_hit(x, y, window, img));
 		x += x_steps;
 		y += y_steps;
 	}
-	return (handle_no_hit(x, y, window));
+	return (handle_no_hit(x, y, window)); //this shouldnt work the loop above should always hit a wall handle this later
 }
 
 int	get_pixel(t_tex *tex, int x, int y)

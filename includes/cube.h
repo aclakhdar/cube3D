@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:02:02 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 19:40:53 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:01:07 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 # define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 960
 # define FOV 60
-# define COL_S 64
-# define D_PLAN 1039
-# define MOV_SPEED 1.5
-# define ROT_SPEED 1.5
+# define COL_S 200
+# define D_PLAN 1039.86
+# define MOV_SPEED 10.5
+# define ROT_SPEED 3.5
 # define DOV 50
 # define HOR 0
 # define VER 1
@@ -306,7 +306,7 @@ int		move_player(t_collision *colision, double old_x, \
 	double old_y, t_window *window);
 int		check_collision(t_window *window, double old_x, double old_y, \
 	t_collision *colision);
-int    mouse_exit(t_window *window);
+int		mouse_exit(t_window *window);
 void	check_map_valid(char **map, t_game *gaminfo);
 void	check_player_valid(char **map, t_game *game);
 void	check_vide(char **map, t_game *game);
@@ -319,6 +319,9 @@ t_ray	horizontal_line(t_window *window, float dir, t_data *img);
 int		check_wall_collision(double x, double y, t_data *img);
 t_ray	vertical_line(t_window *window, float dir, t_data *img);
 int		get_pixel(t_tex *tex, int x, int y);
-void free_simple(t_game *game);
+void	free_simple(t_game *game);
 void	destroy_textures(t_data *img);
+void	free_helper(t_game *game);
+void	free_help2(t_game *game, char **str_split);
+
 #endif

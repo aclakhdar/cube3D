@@ -66,13 +66,12 @@ t_ray	vertical_line(t_window *window, float dir, t_data *img)
 	init_vertical_steps(&x_steps, &y_steps, dir);
 	while (dov--)
 	{
-		// if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
-			if (check_wall_collision(x, y, img))
-				return (handle_wall_hit(x, y, window, img));
+		if (check_wall_collision(x, y, img))
+			return (handle_wall_hit(x, y, window, img));
 		x += x_steps;
 		y += y_steps;
 	}
-	return (handle_no_hit(x, y, window)); //this shouldnt work the loop above should always hit a wall handle this later
+	return (handle_no_hit(x, y, window));
 }
 
 int	get_pixel(t_tex *tex, int x, int y)

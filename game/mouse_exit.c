@@ -12,7 +12,7 @@
 
 #include "cube.h"
 
-int    mouse_exit(t_window *window)
+int	mouse_exit(t_window *window)
 {
 	free_map(window->image->map);
 	free(window->image->ea);
@@ -27,7 +27,7 @@ int    mouse_exit(t_window *window)
 	{
 		mlx_destroy_display(window->mlx);
 		free(window->mlx);
-    }
+	}
 	exit(0);
 	return (0);
 }

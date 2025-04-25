@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:33:05 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 19:23:40 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:27:14 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ void	err_in_map(char **map, int i, int j, t_game *game)
 	{
 		if ((i < 1 || map[i - 1][j] == '+' ) || (j < 1 || map[i][j - 1] == '+' )
 			|| (map[i + 1] && map[i + 1][j] == '+') || map[i][j + 1] == '+')
-			{
-				free_exit(game);
-				err_msg2("Error\nU cccan't\n");
-			}
+		{
+			free_exit(game);
+			err_msg2("Error\nU cccan't\n");
+		}
 	}
 }
 
-void	 check_game(char **map, t_game *game)
+void	check_game(char **map, t_game *game)
 {
 	int	i;
 	int	j;
@@ -118,26 +118,19 @@ void	 check_game(char **map, t_game *game)
 	{
 		j = 0;
 		while (map[i][j])
-		{ 	
+		{
 			err_in_map(map, i, j, game);
 			j++;
 		}
 		if (ft_strchr("0EWNS", map[i][j - 1]))
-		{
-			free_exit(game);
-			err_msg2("Error\n can't run map\n");	
-		}
+			free_helper(game);
 		i++;
 	}
 	j = 0;
 	while (map[i - 1][j])
 	{
 		if (map[i - 1][j] != '1' && map[i - 1][j] != '+')
-		{
-			
-			free_exit(game);
-			err_msg2("Error\nUu ccccan't\n");
-		}
+			free_helper(game);
 		j++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:40:02 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 18:05:27 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:51:53 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_map_valid(char **map, t_game *gameinfo)
 			else
 			{
 				free_bfr_map(gameinfo);
-				err_msg2("Errossr\nMap not valid\n");
+				err_msg2("Error\nMap not valid\n");
 			}
 		}
 		i++;
@@ -58,6 +58,7 @@ void	err_msg2(char *str)
 	write(2, str, ft_strlen(str));
 	exit(1);
 }
+
 void	err_msg3(t_game *game)
 {
 	free_bfr_map(game);

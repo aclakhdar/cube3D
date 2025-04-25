@@ -11,6 +11,7 @@ SRC = main.c game/game_init.c utils/itoa.c game/event_handling.c game/drawing.c 
 	pars_mapvalidation/utils1.c \
 	pars_mapvalidation/utils2.c \
 	pars_mapvalidation/utils3.c \
+	pars_mapvalidation/utils_free.c \
 	utils/get_next_line_utils.c \
     utils/get_next_line.c \
     utils/ft_split.c

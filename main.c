@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 18:07:31 by aclakhda          #+#    #+#             */
-/*   Updated: 2025/03/11 21:44:34 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:45:12 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	initialize_player(t_data *data)
 				|| data->map[y][x] == 'E' || data->map[y][x] == 'S')
 			{
 				set_dir_angle(data, x, y);
-				data->player.x = x * 64 + 64 / 2;
-				data->player.y = y * 64 + 64 / 2;
+				data->player.x = x * COL_S + COL_S / 2;
+				data->player.y = y * COL_S + COL_S / 2;
 				data->map[y][x] = '0';
 			}
 		}

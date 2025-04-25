@@ -17,7 +17,7 @@ void	check_we(char *line, t_game *game, int fd, char **str_split)
 	if (check_texture(line) == 0)
 	{
 		free_map(str_split);
-		free_bfr_map(game);	
+		free_bfr_map(game);
 		err_msg2("Error\nWE not valid\n");
 	}
 	game->we = ft_strdup(str_split[1]);
@@ -60,7 +60,7 @@ void	check_so(char *line, t_game *game, int fd, char **str_split)
 		free_bfr_map(game);
 		err_msg2("Error\nSO not valid\n");
 	}
-	 game->so= ft_strdup(str_split[1]);
+	game->so = ft_strdup(str_split[1]);
 	free(str_split[0]);
 	free(str_split[1]);
 	fd = open(game->so, O_RDONLY);
@@ -77,7 +77,7 @@ void	check_f(t_game *game, char **str_split)
 	if (check_color(str_split[1], game, 1) == 0)
 	{
 		free_map(str_split);
-		free_bfr_map(game);	
+		free_bfr_map(game);
 		err_msg2("Error\nF not valid\n");
 	}
 	game->f = ft_strdup(str_split[1]);

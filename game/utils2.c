@@ -77,9 +77,8 @@ t_ray	horizontal_line(t_window *window, float dir, t_data *img)
 	init_horizontal_steps(&x_step, &y_step, dir);
 	while (dov--)
 	{
-		// if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
-			if (check_wall_collision(x, y, img))
-				return (handle_hor_wall_hit(x, y, window, img));
+		if (check_wall_collision(x, y, img))
+			return (handle_hor_wall_hit(x, y, window, img));
 		x += x_step;
 		y += y_step;
 	}

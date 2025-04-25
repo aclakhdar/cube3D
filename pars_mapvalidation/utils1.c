@@ -6,7 +6,7 @@
 /*   By: mbouras <mbouras@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:38:19 by mbouras           #+#    #+#             */
-/*   Updated: 2025/03/12 18:03:59 by mbouras          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:01:37 by mbouras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	check_texture_color(char *line, t_game *game)
 	i = 0;
 	game->fd = 0;
 	str_split = ft_split(line, ' ');
-	if (str_split[2])
-		err_msg();
+	if (!str_split[1] || str_split[2])
+		free_help2(game, str_split);
 	while (line[i] == ' ')
 		i++;
 	if (line[i] == 'N' && line[i + 1] == 'O' && line[i + 2] == ' ')
@@ -37,15 +37,16 @@ void	check_texture_color(char *line, t_game *game)
 	else if (line[i] == 'C' && line[i + 1] == ' ')
 		check_c(game, str_split);
 	else
-		err_msg();
+		free_help2(game, str_split);
 	free (str_split);
 }
 
-void free_simple(t_game *game)
+void	free_simple(t_game *game)
 {
 	free(game->str);
 	free(game);
 }
+
 void	read_map(char *map_name, t_game *game)
 {
 	char	*line;
@@ -127,79 +128,4 @@ void	map_size(t_game *game, t_data *data)
 	data->map[i] = NULL;
 	data->nb_rows = i;
 	data->nb_cols = data->max;
-}
-
-void	free_all(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (game->map_alloc[i])
-	{
-		free(game->map_alloc[i]);
-		i++;
-	}
-	free(game->map_alloc);
-	j = 0;
-	while (game->array[j])
-	{
-		free(game->array[j]);
-		j++;
-	}
-	free(game->array);
-	free(game->str);
-	free(game->c);
-	free(game->f);
-	free(game);
-}
-
-void	free_exit(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (game->map_alloc[i])
-	{
-		free(game->map_alloc[i]);
-		i++;
-	}
-	free(game->map_alloc);
-	j = 0;
-	while (game->array[j])
-	{
-		free(game->array[j]);
-		j++;
-	}
-	printf("hey there\n");
-	free(game->array);
-	free(game->str);
-	free(game->so);
-	free(game->we);
-	free(game->ea);
-	free(game->no);
-	free(game->c);
-	free(game->f);
-	free(game);
-}
-void	free_bfr_map(t_game *game)
-{
-	int	j;
-
-	j = 0;
-	while (game->array[j])
-	{
-		free(game->array[j]);
-		j++;
-	}
-	free(game->array);
-	free(game->str);
-	free(game->so);
-	free(game->we);
-	free(game->ea);
-	free(game->no);
-	free(game->c);
-	free(game->f);
-	free(game);
 }
